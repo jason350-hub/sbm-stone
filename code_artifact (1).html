@@ -1,0 +1,2679 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌸 璀璨學園：卓越辦學之路 (きらめき学園) | 日式校園策略桌遊</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome 6.5.1 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Japanese & Chinese Cute Rounded Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;700;800;900&family=Zen+Maru+Gothic:wght@400;500;700;900&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti for Victory Ceremony -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            /* Japanese Campus Kawaii Palette (Day Mode) */
+            --bg-canvas: #fdfaf5;
+            --bg-card: #ffffff;
+            --border-soft: #f1e4d6;
+            --text-main: #332d29;
+            --text-sub: #786f68;
+            --sakura-pink: #ff7597;
+            --sakura-light: #fff0f5;
+            --sky-blue: #38bdf8;
+            --mint-green: #34d399;
+            --strawberry-red: #fb7185;
+            --lavender-purple: #a855f7;
+            --sun-yellow: #fbbf24;
+            --cute-shadow: 0 6px 18px -3px rgba(180, 135, 110, 0.15), 0 2px 6px -1px rgba(180, 135, 110, 0.08);
+            --cute-shadow-hover: 0 12px 28px -4px rgba(255, 117, 151, 0.25), 0 4px 10px -2px rgba(180, 135, 110, 0.12);
+        }
+
+        [data-theme="night"] {
+            /* Starry Academy Night Mode */
+            --bg-canvas: #121324;
+            --bg-card: #1c1e36;
+            --border-soft: #30355a;
+            --text-main: #f1f3fc;
+            --text-sub: #9aa2c8;
+            --sakura-pink: #ff85a9;
+            --sakura-light: #2b1f35;
+            --sky-blue: #38bdf8;
+            --mint-green: #34d399;
+            --strawberry-red: #fb7185;
+            --lavender-purple: #c084fc;
+            --sun-yellow: #fcd34d;
+            --cute-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+            --cute-shadow-hover: 0 14px 32px -4px rgba(192, 132, 252, 0.35);
+        }
+
+        body {
+            font-family: 'Zen Maru Gothic', 'M PLUS Rounded 1c', 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-main);
+            overflow-x: hidden;
+            user-select: none;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            background-image: radial-gradient(rgba(226, 210, 195, 0.35) 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+        }
+
+        [data-theme="night"] body {
+            background-image: radial-gradient(rgba(78, 86, 138, 0.45) 1.5px, transparent 1.5px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 7px; height: 7px; }
+        ::-webkit-scrollbar-track { background: rgba(240, 230, 220, 0.5); border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb { background: #fca5a5; border-radius: 9999px; }
+        [data-theme="night"] ::-webkit-scrollbar-track { background: #1a1c30; }
+        [data-theme="night"] ::-webkit-scrollbar-thumb { background: #6366f1; }
+
+        /* Japanese School Washi Tape Tag */
+        .washi-tag {
+            position: relative;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            transform: rotate(-1.5deg);
+        }
+        .washi-tag::after {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: 20%;
+            width: 35px;
+            height: 9px;
+            background: rgba(255, 255, 255, 0.6);
+            border-left: 2px dashed rgba(200, 160, 140, 0.4);
+            border-right: 2px dashed rgba(200, 160, 140, 0.4);
+            transform: rotate(3deg);
+            pointer-events: none;
+        }
+
+        /* Cute Card & Hover Effects */
+        .project-card {
+            background-color: var(--bg-card);
+            border: 2px solid var(--border-soft);
+            box-shadow: var(--cute-shadow);
+            transition: all 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+        }
+        .project-card:hover {
+            transform: translateY(-7px) scale(1.025);
+            box-shadow: var(--cute-shadow-hover);
+            z-index: 25;
+            border-color: var(--sakura-pink);
+        }
+
+        /* Affordable Golden Sparkle Glow */
+        .affordable-glow {
+            border-color: #f59e0b !important;
+            box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.35), 0 10px 25px -4px rgba(245, 158, 11, 0.4) !important;
+            animation: cute-bounce-glow 2.4s infinite ease-in-out;
+        }
+
+        @keyframes cute-bounce-glow {
+            0%, 100% { transform: translateY(0); box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.4), 0 10px 25px -4px rgba(245, 158, 11, 0.35); }
+            50% { transform: translateY(-3px); box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.65), 0 14px 28px -4px rgba(245, 158, 11, 0.5); }
+        }
+
+        /* Cute Macaron Resource Tokens */
+        .token-btn {
+            box-shadow: 0 4px 10px -2px rgba(180, 135, 110, 0.15), inset 0 2px 0 rgba(255,255,255,0.7);
+            transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .token-btn:hover:not(:disabled) {
+            transform: translateY(-3px) scale(1.04);
+            box-shadow: 0 8px 16px -2px rgba(255, 117, 151, 0.25), inset 0 2px 0 rgba(255,255,255,0.9);
+        }
+        .token-btn:active:not(:disabled) {
+            transform: scale(0.96);
+        }
+
+        /* Cute Animated Active Player Ring */
+        @keyframes sakura-pulse {
+            0%, 100% { border-color: #ff7597; box-shadow: 0 0 0 3px rgba(255, 117, 151, 0.35); }
+            50% { border-color: #fbbf24; box-shadow: 0 0 0 6px rgba(251, 191, 36, 0.45); }
+        }
+        .active-player-board {
+            animation: sakura-pulse 2.2s infinite;
+        }
+
+        /* Cute Floating Mascot */
+        @keyframes float-mascot {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-5px) rotate(1.5deg); }
+        }
+        .floating-mascot {
+            animation: float-mascot 3.6s ease-in-out infinite;
+        }
+
+        /* Stamp Effect */
+        .hanko-stamp {
+            border: 2px solid #ef4444;
+            color: #ef4444;
+            border-radius: 8px;
+            padding: 1px 6px;
+            font-weight: 900;
+            display: inline-block;
+            transform: rotate(-4deg);
+            opacity: 0.9;
+        }
+
+        /* Ribbon Bookmark */
+        .ribbon-badge {
+            clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), 50% 100%, 0 calc(100% - 6px));
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between relative selection:bg-pink-200 selection:text-pink-900" data-theme="day">
+
+    <!-- Sakura Petals Canvas Background -->
+    <canvas id="sakuraCanvas" class="fixed inset-0 pointer-events-none z-10"></canvas>
+
+    <!-- TOP HEADER -->
+    <header class="sticky top-0 z-40 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-rose-200/70 dark:border-slate-800 shadow-sm transition-colors">
+        <div class="max-w-[1650px] mx-auto px-3 sm:px-5 py-2.5 flex flex-wrap items-center justify-between gap-3">
+            
+            <!-- School Brand & Mascot -->
+            <div class="flex items-center gap-3">
+                <div class="relative group">
+                    <img src="mascot.png" alt="學生會長櫻庭葵" class="w-12 h-12 rounded-2xl object-cover border-2 border-rose-300 dark:border-rose-500 shadow-md floating-mascot bg-rose-50" />
+                    <span class="absolute -bottom-1 -right-1 text-[10px] bg-rose-500 text-white font-black px-1.5 py-0.2 rounded-full border border-white shadow">
+                        生徒會
+                    </span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2 flex-wrap">
+                        <h1 class="text-lg md:text-xl font-black tracking-wide text-slate-800 dark:text-rose-100 flex items-center gap-1.5">
+                            <span class="text-rose-500">🌸</span> 璀璨學園：卓越辦學之路
+                        </h1>
+                        <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-600 dark:text-rose-300 font-bold border border-rose-200 dark:border-rose-800 flex items-center gap-1">
+                            <span>きらめき学園</span>・五向度校務桌遊
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:flex items-center gap-2">
+                        <span>🎯 辦學競逐目標：率先累積 <strong class="text-amber-500 font-black">15 點辦學聲望</strong> 召開學年度全校表揚大會！</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Turn & Semester Banner -->
+            <div id="turnBanner" class="flex items-center gap-2.5 bg-rose-50/90 dark:bg-slate-800 border-2 border-rose-200 dark:border-slate-700 px-4 py-1.5 rounded-full shadow-sm">
+                <span class="w-3 h-3 rounded-full bg-rose-400 animate-ping"></span>
+                <span id="turnIndicatorText" class="text-xs sm:text-sm font-bold text-slate-800 dark:text-slate-100">
+                    載入校務經營系統中...
+                </span>
+                <span id="roundBadge" class="text-xs px-2.5 py-0.5 rounded-full bg-white dark:bg-slate-700 text-rose-600 dark:text-rose-300 font-black shadow-inner border border-rose-100 dark:border-slate-600">
+                    第 1 學期
+                </span>
+            </div>
+
+            <!-- Utility Controls -->
+            <div class="flex items-center gap-2 flex-wrap">
+                <!-- Audio SFX Toggle -->
+                <button onclick="toggleSoundSfx()" id="audioToggleBtn" class="px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-amber-200 dark:border-slate-700 text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1 transition" title="開關萌音效">
+                    <i class="fa-solid fa-bell text-amber-500" id="audioToggleIcon"></i> 音效: 開
+                </button>
+
+                <!-- Sakura Falling Toggle -->
+                <button onclick="toggleSakuraEffect()" id="sakuraToggleBtn" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-rose-200 dark:border-slate-700 text-xs font-bold text-rose-600 dark:text-rose-300 flex items-center gap-1 transition" title="開關櫻花飄落特效">
+                    🌸 飄櫻: 開
+                </button>
+
+                <!-- Theme Toggle (Day / Night) -->
+                <button onclick="toggleVisualTheme()" id="themeToggleBtn" class="px-2.5 py-1.5 rounded-xl bg-sky-50 hover:bg-sky-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-sky-200 dark:border-slate-700 text-xs font-bold text-sky-700 dark:text-sky-300 flex items-center gap-1 transition" title="切換晴空校園 / 星空祭典模式">
+                    <i class="fa-solid fa-sun text-amber-500" id="themeToggleIcon"></i> 晴空校園
+                </button>
+
+                <!-- Trigger Random Event Card -->
+                <button onclick="triggerRandomSchoolEvent(true)" class="px-3 py-1.5 rounded-xl bg-gradient-to-r from-rose-500 to-pink-500 hover:brightness-105 text-white text-xs font-black shadow-sm flex items-center gap-1.5 transition" title="抽出一張學年度突發校務事件卡">
+                    <i class="fa-solid fa-bolt"></i> 突發事件
+                </button>
+
+                <!-- Setup Modal Button -->
+                <button onclick="openSetupModal()" class="px-2.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1 transition">
+                    <i class="fa-solid fa-sliders text-rose-500"></i> 設定
+                </button>
+
+                <!-- 90 Cards Catalog -->
+                <button onclick="openCatalogModal()" class="px-2.5 py-1.5 rounded-xl bg-white hover:bg-slate-50 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-300 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 flex items-center gap-1 transition">
+                    <i class="fa-solid fa-book text-sky-500"></i> 90張圖鑑
+                </button>
+
+                <!-- Rules Manual -->
+                <button onclick="openRulesModal()" class="px-2.5 py-1.5 rounded-xl bg-amber-100 hover:bg-amber-200 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 text-xs font-black text-amber-800 dark:text-amber-300 flex items-center gap-1 transition">
+                    <i class="fa-solid fa-circle-question text-amber-600"></i> 規則手冊
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN GAME BOARD -->
+    <main class="flex-1 max-w-[1650px] w-full mx-auto p-3 sm:p-4 grid grid-cols-1 lg:grid-cols-12 gap-4 items-start relative z-20">
+
+        <!-- LEFT COLUMN: Campus Resource Shop + Educational Milestones (3 cols) -->
+        <section class="lg:col-span-3 flex flex-col gap-4">
+            
+            <!-- Campus Resource Bank -->
+            <div class="bg-white/95 dark:bg-slate-900/90 border-2 border-rose-100 dark:border-slate-800 rounded-3xl p-4 shadow-sm relative overflow-hidden">
+                <div class="flex items-center justify-between mb-3 border-b border-rose-100 dark:border-slate-800 pb-2">
+                    <h2 class="text-sm font-black text-slate-800 dark:text-rose-200 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-rose-100 dark:bg-rose-900/50 flex items-center justify-center text-rose-500 text-xs">
+                            <i class="fa-solid fa-store"></i>
+                        </span>
+                        校務資源補給合作社
+                    </h2>
+                    <span class="text-[11px] text-slate-400 font-medium">點擊籌碼募集資源</span>
+                </div>
+
+                <!-- Token Pool List (Macaron 3D styling) -->
+                <div id="resourceBankContainer" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-1 gap-2.5">
+                    <!-- Populated by JS -->
+                </div>
+
+                <!-- Draft Cart Basket -->
+                <div id="draftCartBox" class="mt-3.5 pt-3 border-t-2 border-dashed border-rose-100 dark:border-slate-800">
+                    <div class="flex items-center justify-between text-xs text-slate-600 dark:text-slate-300 mb-2 font-bold">
+                        <span class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-basket-shopping text-rose-400"></i> 本回預選資源籃：
+                        </span>
+                        <button onclick="clearDraftTokens()" id="clearDraftBtn" class="text-rose-500 hover:text-rose-700 hidden text-xs font-black flex items-center gap-1">
+                            <i class="fa-solid fa-rotate-left"></i> 清空
+                        </button>
+                    </div>
+                    <div id="draftTokensDisplay" class="min-h-[46px] bg-rose-50/60 dark:bg-slate-950/60 rounded-2xl border-2 border-dashed border-rose-200 dark:border-slate-800 flex items-center justify-center gap-2 p-2 flex-wrap">
+                        <span class="text-xs text-slate-400 flex items-center gap-1">
+                            <i class="fa-regular fa-hand-pointer"></i> 請點選上方資源（3枚不同 或 2枚相同）
+                        </span>
+                    </div>
+                    <button id="confirmGatherBtn" onclick="confirmGatherResources()" disabled
+                        class="mt-2.5 w-full py-2.5 rounded-2xl font-black text-sm bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 shadow-md shadow-emerald-400/20 disabled:opacity-35 disabled:cursor-not-allowed hover:brightness-105 transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-circle-check"></i> 確認領取並結束回合
+                    </button>
+                </div>
+            </div>
+
+            <!-- Educational Milestones / Awards (Nobles) -->
+            <div class="bg-white/95 dark:bg-slate-900/90 border-2 border-amber-200 dark:border-slate-800 rounded-3xl p-4 shadow-sm">
+                <div class="flex items-center justify-between mb-2.5 border-b border-amber-100 dark:border-slate-800 pb-2">
+                    <h2 class="text-sm font-black text-amber-700 dark:text-amber-300 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-amber-100 dark:bg-amber-950/60 flex items-center justify-center text-amber-500 text-xs">
+                            <i class="fa-solid fa-award"></i>
+                        </span>
+                        教育卓越評鑑榮譽獎項
+                    </h2>
+                    <span class="text-[11px] px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-black border border-amber-300">
+                        每項 +3 聲望
+                    </span>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3">
+                    🌸 當學校常態化累積的「永久紅利」滿足條件時，回合結束將獲頒大獎！
+                </p>
+                <div id="awardsContainer" class="space-y-2.5">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- CENTER COLUMN: 3 Tiers of School Development Projects (6 cols) -->
+        <section class="lg:col-span-6 flex flex-col gap-3.5">
+            
+            <!-- Level 3: Brand & Paradigm Projects (Lv.3 品牌典範) -->
+            <div class="bg-white/95 dark:bg-slate-900/85 border-2 border-purple-200 dark:border-purple-900/50 rounded-3xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between mb-2.5">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-0.5 rounded-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white text-xs font-black tracking-wider shadow-sm flex items-center gap-1">
+                            <span>👑</span> Lv.3 品牌典範
+                        </span>
+                        <span class="text-xs text-slate-600 dark:text-purple-200 font-bold">大型旗艦計畫（3 ~ 5 點辦學聲望）</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="deckCount3" class="text-xs text-purple-600 dark:text-purple-300 font-mono font-bold">牌庫剩餘: 16</span>
+                        <button onclick="blindReserveFromDeck(3)" class="px-2.5 py-1 rounded-xl bg-purple-100 dark:bg-purple-950 hover:bg-purple-200 dark:hover:bg-purple-900 border border-purple-300 dark:border-purple-700 text-[11px] font-black text-purple-700 dark:text-purple-200 transition flex items-center gap-1" title="從Lv.3牌庫頂盲抽保留1張專案">
+                            <i class="fa-solid fa-folder-plus"></i> 盲抽立案
+                        </button>
+                    </div>
+                </div>
+                <div id="marketTier3" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <!-- 4 Cards -->
+                </div>
+            </div>
+
+            <!-- Level 2: Characteristic Development Projects (Lv.2 特色發展) -->
+            <div class="bg-white/95 dark:bg-slate-900/85 border-2 border-amber-200 dark:border-amber-900/50 rounded-3xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between mb-2.5">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-0.5 rounded-full bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 text-xs font-black tracking-wider shadow-sm flex items-center gap-1">
+                            <span>⭐</span> Lv.2 特色發展
+                        </span>
+                        <span class="text-xs text-slate-600 dark:text-amber-200 font-bold">中期跨域亮點計畫（1 ~ 3 點辦學聲望）</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="deckCount2" class="text-xs text-amber-600 dark:text-amber-300 font-mono font-bold">牌庫剩餘: 26</span>
+                        <button onclick="blindReserveFromDeck(2)" class="px-2.5 py-1 rounded-xl bg-amber-100 dark:bg-amber-950 hover:bg-amber-200 dark:hover:bg-amber-900 border border-amber-300 dark:border-amber-700 text-[11px] font-black text-amber-800 dark:text-amber-200 transition flex items-center gap-1" title="從Lv.2牌庫頂盲抽保留1張專案">
+                            <i class="fa-solid fa-folder-plus"></i> 盲抽立案
+                        </button>
+                    </div>
+                </div>
+                <div id="marketTier2" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <!-- 4 Cards -->
+                </div>
+            </div>
+
+            <!-- Level 1: Foundational Projects (Lv.1 基礎扎根) -->
+            <div class="bg-white/95 dark:bg-slate-900/85 border-2 border-emerald-200 dark:border-emerald-900/50 rounded-3xl p-3.5 shadow-sm">
+                <div class="flex items-center justify-between mb-2.5">
+                    <div class="flex items-center gap-2">
+                        <span class="px-3 py-0.5 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 text-slate-950 text-xs font-black tracking-wider shadow-sm flex items-center gap-1">
+                            <span>🌱</span> Lv.1 基礎扎根
+                        </span>
+                        <span class="text-xs text-slate-600 dark:text-emerald-200 font-bold">日常行政與基礎常態建設（0 ~ 1 點辦學聲望）</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <span id="deckCount1" class="text-xs text-emerald-600 dark:text-emerald-300 font-mono font-bold">牌庫剩餘: 36</span>
+                        <button onclick="blindReserveFromDeck(1)" class="px-2.5 py-1 rounded-xl bg-emerald-100 dark:bg-emerald-950 hover:bg-emerald-200 dark:hover:bg-emerald-900 border border-emerald-300 dark:border-emerald-700 text-[11px] font-black text-emerald-800 dark:text-emerald-200 transition flex items-center gap-1" title="從Lv.1牌庫頂盲抽保留1張專案">
+                            <i class="fa-solid fa-folder-plus"></i> 盲抽立案
+                        </button>
+                    </div>
+                </div>
+                <div id="marketTier1" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+                    <!-- 4 Cards -->
+                </div>
+            </div>
+
+            <!-- Live Campus Action Log & Event Banner -->
+            <div class="bg-white/95 dark:bg-slate-900/90 border-2 border-rose-100 dark:border-slate-800 rounded-3xl p-3.5 flex flex-col gap-2 shadow-sm">
+                <div class="flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-2.5 text-xs text-slate-700 dark:text-slate-300 truncate">
+                        <span class="px-2.5 py-1 rounded-xl bg-rose-500 text-white font-black shrink-0 flex items-center gap-1">
+                            <i class="fa-solid fa-bullhorn"></i> 校園快訊
+                        </span>
+                        <span id="latestLogText" class="truncate font-medium">歡迎來到《璀璨學園》，請點擊資源籌碼募集，或挑選專案卡執行/立案！</span>
+                    </div>
+                    <span class="text-[11px] text-amber-600 dark:text-amber-400 font-bold shrink-0 hidden sm:inline flex items-center gap-1">
+                        <span class="inline-block w-2.5 h-2.5 rounded-full bg-amber-400"></span> 金框＝目前資源可執行
+                    </span>
+                </div>
+                <!-- Active School Event Banner -->
+                <div id="activeEventBanner" class="hidden items-center justify-between gap-2 px-3.5 py-2 rounded-2xl bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-800 text-xs">
+                    <div class="flex items-center gap-2 truncate">
+                        <span class="px-2 py-0.5 rounded-lg bg-rose-500 text-white font-black text-[10px] shrink-0">學期焦點事件</span>
+                        <span id="activeEventBannerTitle" class="font-black text-rose-700 dark:text-rose-200 truncate">尚無突發事件</span>
+                    </div>
+                    <button onclick="reopenLastEventModal()" class="text-[11px] text-rose-600 dark:text-amber-300 hover:underline shrink-0 font-black">
+                        查看事件情境 & 研習提問 &rarr;
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT COLUMN: Players Dashboard & Active School Board (3 cols) -->
+        <section class="lg:col-span-3 flex flex-col gap-3">
+            <div class="bg-white/95 dark:bg-slate-900/90 border-2 border-sky-100 dark:border-slate-800 rounded-3xl p-4 shadow-sm">
+                <div class="flex items-center justify-between mb-3 border-b border-sky-100 dark:border-slate-800 pb-2">
+                    <h2 class="text-sm font-black text-slate-800 dark:text-sky-200 flex items-center gap-2">
+                        <span class="w-6 h-6 rounded-lg bg-sky-100 dark:bg-sky-950/60 flex items-center justify-center text-sky-500 text-xs">
+                            <i class="fa-solid fa-school"></i>
+                        </span>
+                        各校經營團隊・校務看板
+                    </h2>
+                    <span class="text-[11px] text-slate-500 font-medium">每校庫存上限 10 枚</span>
+                </div>
+
+                <!-- Players List -->
+                <div id="playersDashboard" class="space-y-3">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-4 py-3 bg-white/70 dark:bg-slate-900/70 border-t border-rose-100 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400">
+        <p>🌸 《璀璨學園：卓越辦學之路》學校經營策略桌遊 ｜ 100% 遵循原版《璀璨寶石》數學平衡配比 ｜ 日式校園萌系美術風格</p>
+    </footer>
+
+    <!-- MODAL: Card Detail & Action Modal -->
+    <div id="cardActionModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border-2 border-rose-200 dark:border-slate-700 rounded-3xl max-w-md w-full p-6 shadow-2xl relative overflow-hidden">
+            <!-- Decorative Japanese Ribbon -->
+            <div class="absolute -top-10 -right-10 w-28 h-28 bg-rose-100 dark:bg-rose-950/40 rounded-full pointer-events-none"></div>
+
+            <div class="flex items-start justify-between gap-3 mb-4">
+                <div class="flex items-center gap-3">
+                    <div id="modalCardIconBox" class="w-14 h-14 rounded-2xl bg-rose-100 dark:bg-rose-950/60 flex items-center justify-center text-2xl text-rose-500 shrink-0 border border-rose-200 dark:border-rose-800 shadow-inner">
+                        <i id="modalCardIcon" class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="modalCardTierBadge" class="text-[11px] font-black px-2.5 py-0.5 rounded-full">Lv.1</span>
+                            <span id="modalCardTag" class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">課程研發</span>
+                        </div>
+                        <h3 id="modalCardTitle" class="text-lg font-black text-slate-800 dark:text-white mt-1">專案名稱</h3>
+                    </div>
+                </div>
+                <button onclick="closeCardModal()" class="text-slate-400 hover:text-rose-500 text-2xl font-bold leading-none">&times;</button>
+            </div>
+
+            <!-- Card Metadata Box -->
+            <div class="bg-rose-50/70 dark:bg-slate-800/80 rounded-2xl p-4 border border-rose-200 dark:border-slate-700 mb-4 space-y-2.5">
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-slate-500 dark:text-slate-400 font-bold">常態化永久紅利產出：</span>
+                    <span id="modalCardBonus" class="text-xs font-black px-3 py-1 rounded-xl shadow-sm"></span>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-xs text-slate-500 dark:text-slate-400 font-bold">辦學聲望分數：</span>
+                    <span id="modalCardPoints" class="text-sm font-black text-amber-600 dark:text-amber-300"></span>
+                </div>
+                <div class="pt-2 border-t border-rose-200/80 dark:border-slate-700">
+                    <div class="text-xs text-slate-500 dark:text-slate-400 font-bold mb-1.5 flex items-center gap-1">
+                        <i class="fa-solid fa-calculator text-rose-400"></i> 所需資源與紅利折抵明細：
+                    </div>
+                    <div id="modalCostBreakdown" class="space-y-1.5 text-xs"></div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-2.5">
+                <button id="modalBuyBtn" onclick="executeModalCardBuy()"
+                    class="flex-1 py-3 px-4 rounded-2xl font-black text-sm bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 hover:brightness-105 disabled:opacity-35 disabled:cursor-not-allowed transition flex items-center justify-center gap-2 shadow-md">
+                    <i class="fa-solid fa-hammer"></i> 執行專案（購買）
+                </button>
+                <button id="modalReserveBtn" onclick="executeModalCardReserve()"
+                    class="flex-1 py-3 px-4 rounded-2xl font-black text-sm bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-amber-600 dark:text-amber-300 border-2 border-amber-400/50 disabled:opacity-35 disabled:cursor-not-allowed transition flex items-center justify-center gap-2 shadow-sm">
+                    <i class="fa-solid fa-file-signature"></i> 簽呈立案（保留+領統籌款）
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Token Overflow Return (>10 Tokens) -->
+    <div id="tokenReturnModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border-2 border-rose-400 rounded-3xl max-w-md w-full p-6 shadow-2xl">
+            <div class="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-black text-lg mb-1.5">
+                <i class="fa-solid fa-triangle-exclamation"></i> 校務資源超過庫存上限（10枚）！
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mb-4 leading-relaxed">
+                依據校務資產管理規範，每所學校手頭籌碼上限為 <strong>10 枚</strong>。請點選下方多餘的資源籌碼繳回供應區：
+            </p>
+            <div id="returnTokenStatus" class="text-center py-2.5 mb-3.5 rounded-2xl bg-rose-100 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-800 text-sm font-black text-rose-700 dark:text-rose-200">
+                目前持有 12 枚，請再繳回 2 枚
+            </div>
+            <div id="returnTokensGrid" class="grid grid-cols-3 gap-2.5 mb-2">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Game Setup Modal -->
+    <div id="setupModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border-2 border-rose-200 dark:border-slate-700 rounded-3xl max-w-lg w-full p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-4 border-b border-slate-100 dark:border-slate-800 pb-3">
+                <h3 class="text-xl font-black text-slate-800 dark:text-white flex items-center gap-2">
+                    <span class="text-rose-500">⚙️</span> 學年度新局設定
+                </h3>
+                <button onclick="closeSetupModal()" class="text-slate-400 hover:text-rose-500 text-2xl font-bold">&times;</button>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-black text-slate-700 dark:text-slate-300 mb-2">選擇參與辦學的學校團隊模式：</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="modeSelectGrid">
+                        <button onclick="selectGamePreset('1P_1AI')" data-preset="1P_1AI" class="preset-btn p-3 rounded-2xl border-2 border-rose-400 bg-rose-50 dark:bg-rose-950/30 text-left transition">
+                            <div class="font-black text-xs sm:text-sm text-rose-600 dark:text-rose-300">單人挑戰（1人類 vs 1電腦校長）</div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">2校對決｜每向度4枚資源、3項評鑑獎</div>
+                        </button>
+                        <button onclick="selectGamePreset('1P_2AI')" data-preset="1P_2AI" class="preset-btn p-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 text-left transition">
+                            <div class="font-black text-xs sm:text-sm text-slate-700 dark:text-slate-200">三校競逐（1人類 vs 2電腦校長）</div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">3校對決｜每向度5枚資源、4項評鑑獎</div>
+                        </button>
+                        <button onclick="selectGamePreset('2P_LOCAL')" data-preset="2P_LOCAL" class="preset-btn p-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 text-left transition">
+                            <div class="font-black text-xs sm:text-sm text-slate-700 dark:text-slate-200">雙人同機（2組真人團隊輪流）</div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">研習分組交流實操</div>
+                        </button>
+                        <button onclick="selectGamePreset('4P_LOCAL')" data-preset="4P_LOCAL" class="preset-btn p-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 text-left transition">
+                            <div class="font-black text-xs sm:text-sm text-slate-700 dark:text-slate-200">四校共識營（4組真人團隊同機）</div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">大螢幕投影互動｜每向度7枚資源</div>
+                        </button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-slate-700 dark:text-slate-300 mb-2">獲勝目標聲望分數：</label>
+                    <div class="flex gap-2">
+                        <button onclick="setTargetScore(15)" id="scoreBtn15" class="flex-1 py-2.5 rounded-2xl border-2 border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 text-xs font-black">標準對局（15 分）</button>
+                        <button onclick="setTargetScore(12)" id="scoreBtn12" class="flex-1 py-2.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-black">研習快速局（12 分）</button>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-black text-slate-700 dark:text-slate-300 mb-2">學年度突發事件觸發頻率：</label>
+                    <div class="flex gap-2">
+                        <button onclick="setEventFrequency(2)" id="freqBtn2" class="flex-1 py-2 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold">每 2 學期</button>
+                        <button onclick="setEventFrequency(3)" id="freqBtn3" class="flex-1 py-2 rounded-2xl border-2 border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 text-xs font-black">標準（每 3 學期）</button>
+                        <button onclick="setEventFrequency(0)" id="freqBtn0" class="flex-1 py-2 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold">手動抽卡</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6 flex justify-end gap-2.5">
+                <button onclick="closeSetupModal()" class="px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold">取消</button>
+                <button onclick="startNewGameFromSetup()" class="px-5 py-2.5 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-black shadow-md hover:brightness-105">
+                    <i class="fa-solid fa-play mr-1"></i> 立即開學（重啟新局）
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Rules Manual -->
+    <div id="rulesModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border-2 border-rose-200 dark:border-slate-700 rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 shadow-2xl">
+            <div class="flex items-center justify-between mb-4 sticky top-0 bg-white dark:bg-slate-900 pb-3 border-b border-rose-100 dark:border-slate-800">
+                <h3 class="text-xl font-black text-rose-600 dark:text-rose-300 flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> 《璀璨學園》校務經營指導手冊
+                </h3>
+                <button onclick="closeRulesModal()" class="text-slate-400 hover:text-rose-500 text-2xl font-bold">&times;</button>
+            </div>
+            <div class="space-y-4 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+                <div class="p-4 rounded-2xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900">
+                    <h4 class="font-black text-rose-700 dark:text-rose-300 mb-1 flex items-center gap-1.5">
+                        <span>🎯</span> 辦學核心目標
+                    </h4>
+                    <p>每位校長帶領團隊收集五大校務資源（<strong>🔵人力、🟢資金、🔴設備、⚪課程、⚫外部支援</strong>），推動三階段的「校務發展專案」，並爭取「教育評鑑認證獎項（+3分）」。當有學校率先達到 <strong>15 點辦學聲望</strong> 時，同輪所有學校行動完畢後進行最終總結算！</p>
+                </div>
+
+                <div>
+                    <h4 class="font-black text-amber-700 dark:text-amber-300 mb-2 flex items-center gap-1.5">
+                        <span>⚡</span> 每回合行動四選一
+                    </h4>
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li><strong>多元募集資源</strong>：從供應區拿取 <strong>3 枚不同向度</strong> 的資源籌碼。</li>
+                        <li><strong>重點挹注資源</strong>：當某一向度的資源在供應區還有 <strong>4 枚（含）以上</strong> 時，可拿取 <strong>2 枚相同向度</strong> 的資源籌碼。</li>
+                        <li><strong>簽呈立案（保留專案）</strong>：點擊場上一張專案卡選擇「簽呈立案」（或從牌庫頂盲抽立案），收進自己的「待執行立案區」（上限 3 張），並獲得 <strong>1 枚🟡校長統籌款（萬用資源）</strong>。</li>
+                        <li><strong>執行專案（購買卡片）</strong>：支付專案所需的資源（<strong>扣除校內已完成專案的永久紅利</strong>，不足處可用🟡校長統籌款代替），將專案納入校務版圖。</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800">
+                    <h4 class="font-black text-emerald-700 dark:text-emerald-300 mb-1 flex items-center gap-1.5">
+                        <span>💡</span> 引擎構築：常態化永久紅利
+                    </h4>
+                    <p>每張完成的「校務發展專案」都能為學校帶來常態化紅利，<strong>未來執行任何新專案時，都能永久折抵 1 點該向度的資源消耗</strong>！累積足夠的紅利也是自動獲頒「教學卓越獎、閱讀磐石獎、Apple 傑出學校」等 3 分大獎的唯一條件。</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: 90 Cards Catalog with Search & Filter -->
+    <div id="catalogModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border-2 border-rose-200 dark:border-slate-700 rounded-3xl max-w-5xl w-full max-h-[90vh] flex flex-col p-6 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+                <div>
+                    <h3 class="text-lg font-black text-slate-800 dark:text-white flex items-center gap-2">
+                        <span>📚</span> 90 張校務發展專案與 10 大教育榮譽圖鑑
+                    </h3>
+                    <p class="text-xs text-slate-500">每張卡片皆配有專屬日式校園圖標與數值平衡配比</p>
+                </div>
+                <button onclick="closeCatalogModal()" class="text-slate-400 hover:text-rose-500 text-2xl font-bold">&times;</button>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="flex flex-wrap items-center justify-between gap-2.5 my-3">
+                <div class="flex gap-1.5 flex-wrap">
+                    <button onclick="filterCatalog('ALL')" id="catBtnALL" class="px-3 py-1 rounded-xl text-xs font-black bg-rose-500 text-white shadow-sm">全部 (90張)</button>
+                    <button onclick="filterCatalog(1)" id="catBtn1" class="px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Lv.1 基礎扎根 (40)</button>
+                    <button onclick="filterCatalog(2)" id="catBtn2" class="px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Lv.2 特色發展 (30)</button>
+                    <button onclick="filterCatalog(3)" id="catBtn3" class="px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">Lv.3 品牌典範 (20)</button>
+                </div>
+                <div class="relative">
+                    <input type="text" id="catalogSearchInput" oninput="onCatalogSearch()" placeholder="搜尋專案名稱..." class="px-3 py-1 pl-8 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs focus:outline-none focus:border-rose-400 w-48" />
+                    <i class="fa-solid fa-magnifying-glass absolute left-2.5 top-2 text-slate-400 text-xs"></i>
+                </div>
+            </div>
+
+            <div class="overflow-y-auto flex-1 border border-slate-200 dark:border-slate-800 rounded-2xl">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-rose-50/80 dark:bg-slate-800 text-slate-700 dark:text-slate-300 sticky top-0 font-black">
+                        <tr>
+                            <th class="p-3">階段</th>
+                            <th class="p-3">圖標與專案名稱</th>
+                            <th class="p-3">主題分類</th>
+                            <th class="p-3">永久紅利</th>
+                            <th class="p-3">辦學聲望</th>
+                            <th class="p-3">所需資源成本（藍/綠/紅/白/黑）</th>
+                        </tr>
+                    </thead>
+                    <tbody id="catalogTableBody" class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: School Event Extra Issue Modal -->
+    <div id="schoolEventModal" class="fixed inset-0 bg-slate-950/75 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border-2 border-rose-400 rounded-3xl max-w-xl w-full p-6 shadow-2xl relative overflow-hidden">
+            <div class="flex items-start justify-between gap-3 mb-3">
+                <div class="flex items-center gap-3">
+                    <div id="eventModalIconBox" class="w-13 h-13 rounded-2xl bg-rose-100 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-700 flex items-center justify-center text-2xl text-rose-500 shrink-0 shadow-sm p-3">
+                        <i id="eventModalIcon" class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span id="eventModalTypeBadge" class="text-[11px] font-black px-2.5 py-0.5 rounded-full bg-rose-500 text-white">學年度突發事件</span>
+                            <span id="eventModalRoundTag" class="text-xs text-slate-500 dark:text-slate-400 font-bold">第 3 學期事件</span>
+                        </div>
+                        <h3 id="eventModalTitle" class="text-xl font-black text-slate-800 dark:text-white mt-1">事件標題</h3>
+                    </div>
+                </div>
+                <button onclick="closeSchoolEventModal()" class="text-slate-400 hover:text-rose-500 text-2xl font-bold">&times;</button>
+            </div>
+
+            <p id="eventModalDesc" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed mb-4 bg-rose-50/60 dark:bg-slate-950/60 p-4 rounded-2xl border border-rose-100 dark:border-slate-800">
+                事件情境描述
+            </p>
+
+            <!-- Mechanical Effect Log -->
+            <div class="mb-4 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800">
+                <div class="text-xs font-black text-amber-800 dark:text-amber-300 mb-1.5 flex items-center gap-1.5">
+                    <i class="fa-solid fa-scale-balanced"></i> 校務評鑑與資源連動影響：
+                </div>
+                <div id="eventModalEffectRule" class="text-xs text-amber-900 dark:text-amber-100 font-bold mb-2"></div>
+                <div id="eventModalImpactResults" class="space-y-1 text-xs border-t border-amber-200 dark:border-amber-800 pt-2 text-slate-700 dark:text-slate-300"></div>
+            </div>
+
+            <!-- Workshop Discussion Prompt -->
+            <div class="mb-5 p-4 rounded-2xl bg-sky-50 dark:bg-sky-950/40 border border-sky-200 dark:border-sky-800">
+                <div class="text-xs font-black text-sky-800 dark:text-sky-300 mb-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-comments"></i> 研習共識營・校長室思辨提問：
+                </div>
+                <p id="eventModalDiscussion" class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed italic"></p>
+            </div>
+
+            <button onclick="closeSchoolEventModal()" class="w-full py-3 rounded-2xl bg-gradient-to-r from-rose-500 to-pink-500 text-white font-black text-sm shadow-md hover:brightness-105 transition">
+                確認影響並繼續推動校務
+            </button>
+        </div>
+    </div>
+
+    <!-- MODAL: Victory Ceremony Modal -->
+    <div id="victoryModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 border-4 border-amber-400 rounded-3xl max-w-lg w-full p-6 text-center shadow-2xl relative overflow-hidden">
+            <div class="w-20 h-20 mx-auto rounded-3xl bg-amber-100 dark:bg-amber-950/60 border-2 border-amber-400 flex items-center justify-center text-4xl text-amber-500 mb-3 shadow-inner">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <h2 class="text-2xl font-black text-amber-600 dark:text-amber-300 mb-1">🎓 學年度卓越辦學授獎盛典！</h2>
+            <p id="victorySubtitle" class="text-sm text-slate-600 dark:text-slate-300 mb-4"></p>
+            <div id="victoryStandings" class="space-y-2.5 text-left mb-6"></div>
+            <button onclick="openSetupModal(); closeVictoryModal();" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-amber-400 via-rose-400 to-pink-500 text-white font-black text-sm shadow-lg hover:brightness-105 transition">
+                🌸 開啟新學年度辦學對決
+            </button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Web Audio API Synthesizer (Cute 8-bit & Marimba Chimes)
+         */
+        let audioCtx = null;
+        let soundEnabled = true;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    audioCtx = new AudioContext();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        function playSfx(type) {
+            if (!soundEnabled) return;
+            const ctx = getAudioContext();
+            if (!ctx) return;
+
+            const now = ctx.currentTime;
+
+            if (type === 'gather') {
+                // Cute Marimba Plink-Plonk (High C -> E -> G)
+                const freqs = [523.25, 659.25, 783.99];
+                freqs.forEach((f, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now + i * 0.06);
+                    gain.gain.setValueAtTime(0.18, now + i * 0.06);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.06 + 0.15);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + i * 0.06);
+                    osc.stop(now + i * 0.06 + 0.16);
+                });
+            } else if (type === 'buy') {
+                // Celebratory Harp Fanfare (C5, E5, G5, B5, C6)
+                const freqs = [523.25, 659.25, 783.99, 987.77, 1046.50];
+                freqs.forEach((f, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + i * 0.08);
+                    gain.gain.setValueAtTime(0.25, now + i * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.35);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + i * 0.08);
+                    osc.stop(now + i * 0.08 + 0.36);
+                });
+            } else if (type === 'reserve') {
+                // Stamp seal pop
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(320, now);
+                osc.frequency.exponentialRampToValueAtTime(150, now + 0.12);
+                gain.gain.setValueAtTime(0.3, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.14);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } else if (type === 'award') {
+                // Triumphant Fanfare
+                const notes = [440, 554.37, 659.25, 880];
+                notes.forEach((f, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now + i * 0.1);
+                    gain.gain.setValueAtTime(0.22, now + i * 0.1);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.1 + 0.4);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + i * 0.1);
+                    osc.stop(now + i * 0.1 + 0.42);
+                });
+            } else if (type === 'event') {
+                // Authentic Japanese School Bell Chime (Ding Dong Dang Dong: F4 -> A4 -> G4 -> C4, G4 -> C4 -> A4 -> F4)
+                const chime = [349.23, 440.00, 392.00, 261.63, 392.00, 261.63, 440.00, 349.23];
+                chime.forEach((f, i) => {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(f, now + i * 0.22);
+                    gain.gain.setValueAtTime(0.22, now + i * 0.22);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.22 + 0.45);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + i * 0.22);
+                    osc.stop(now + i * 0.22 + 0.46);
+                });
+            } else if (type === 'click') {
+                // Soft cute bubble click
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(600, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(now);
+                osc.stop(now + 0.07);
+            }
+        }
+
+        function toggleSoundSfx() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('audioToggleBtn');
+            const icon = document.getElementById('audioToggleIcon');
+            if (soundEnabled) {
+                btn.className = 'px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-amber-200 dark:border-slate-700 text-xs font-bold text-amber-700 dark:text-amber-300 flex items-center gap-1 transition';
+                btn.innerHTML = `<i class="fa-solid fa-bell text-amber-500" id="audioToggleIcon"></i> 音效: 開`;
+                playSfx('click');
+            } else {
+                btn.className = 'px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-400 flex items-center gap-1 transition';
+                btn.innerHTML = `<i class="fa-solid fa-bell-slash text-slate-400" id="audioToggleIcon"></i> 音效: 關`;
+            }
+        }
+
+        /**
+         * Canvas Falling Sakura Effect
+         */
+        let sakuraActive = true;
+        const sakuraPetals = [];
+        const canvas = document.getElementById('sakuraCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class SakuraPetal {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20 - Math.random() * 50;
+                this.size = 8 + Math.random() * 9;
+                this.speedY = 0.8 + Math.random() * 1.4;
+                this.speedX = -0.5 + Math.random() * 1.5;
+                this.angle = Math.random() * 360;
+                this.spinSpeed = (Math.random() - 0.5) * 1.8;
+                this.opacity = 0.4 + Math.random() * 0.45;
+                this.color = Math.random() > 0.4 ? 'rgba(255, 182, 193,' : 'rgba(255, 192, 203,';
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += Math.sin(this.angle * Math.PI / 180) * 0.8 + this.speedX;
+                this.angle += this.spinSpeed;
+                if (this.y > canvas.height + 20 || this.x < -30 || this.x > canvas.width + 30) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle * Math.PI / 180);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(-this.size / 2, -this.size / 2, -this.size, this.size / 3, 0, this.size);
+                ctx.bezierCurveTo(this.size, this.size / 3, this.size / 2, -this.size / 2, 0, 0);
+                ctx.fillStyle = `${this.color}${this.opacity})`;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 28; i++) {
+            sakuraPetals.push(new SakuraPetal());
+        }
+
+        function animateSakura() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (sakuraActive) {
+                sakuraPetals.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+            }
+            requestAnimationFrame(animateSakura);
+        }
+        animateSakura();
+
+        function toggleSakuraEffect() {
+            sakuraActive = !sakuraActive;
+            const btn = document.getElementById('sakuraToggleBtn');
+            if (sakuraActive) {
+                btn.textContent = '🌸 飄櫻: 開';
+                btn.className = 'px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 dark:bg-slate-800 dark:hover:bg-slate-700 border border-rose-200 dark:border-slate-700 text-xs font-bold text-rose-600 dark:text-rose-300 flex items-center gap-1 transition';
+            } else {
+                btn.textContent = '🌸 飄櫻: 關';
+                btn.className = 'px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-400 flex items-center gap-1 transition';
+            }
+        }
+
+        function toggleVisualTheme() {
+            const body = document.body;
+            const current = body.getAttribute('data-theme');
+            const newTheme = current === 'day' ? 'night' : 'day';
+            body.setAttribute('data-theme', newTheme);
+
+            const btn = document.getElementById('themeToggleBtn');
+            if (newTheme === 'night') {
+                btn.innerHTML = `<i class="fa-solid fa-moon text-indigo-400" id="themeToggleIcon"></i> 星空祭典`;
+            } else {
+                btn.innerHTML = `<i class="fa-solid fa-sun text-amber-500" id="themeToggleIcon"></i> 晴空校園`;
+            }
+            playSfx('click');
+        }
+
+        /**
+         * 五大校務資源向度定義（日式校園萌系專屬配色）
+         */
+        const DIMENSIONS = {
+            u: {
+                key: 'u',
+                name: '人力',
+                fullName: '師資人力社群',
+                icon: 'fa-user-group',
+                colorCode: '#38bdf8',
+                bgClass: 'bg-sky-500',
+                lightBg: 'bg-sky-50 dark:bg-sky-950/40',
+                borderClass: 'border-sky-300 dark:border-sky-700',
+                textClass: 'text-sky-600 dark:text-sky-300',
+                badgeClass: 'bg-sky-500 text-white shadow-sm'
+            },
+            g: {
+                key: 'g',
+                name: '資金',
+                fullName: '校務經費基金',
+                icon: 'fa-sack-dollar',
+                colorCode: '#34d399',
+                bgClass: 'bg-emerald-500',
+                lightBg: 'bg-emerald-50 dark:bg-emerald-950/40',
+                borderClass: 'border-emerald-300 dark:border-emerald-700',
+                textClass: 'text-emerald-600 dark:text-emerald-300',
+                badgeClass: 'bg-emerald-500 text-slate-950 shadow-sm'
+            },
+            r: {
+                key: 'r',
+                name: '設備',
+                fullName: '校園設備空間',
+                icon: 'fa-laptop-code',
+                colorCode: '#fb7185',
+                bgClass: 'bg-rose-500',
+                lightBg: 'bg-rose-50 dark:bg-rose-950/40',
+                borderClass: 'border-rose-300 dark:border-rose-700',
+                textClass: 'text-rose-600 dark:text-rose-300',
+                badgeClass: 'bg-rose-500 text-white shadow-sm'
+            },
+            w: {
+                key: 'w',
+                name: '課程',
+                fullName: '素養課程研發',
+                icon: 'fa-book-open-reader',
+                colorCode: '#ff7597',
+                bgClass: 'bg-pink-400',
+                lightBg: 'bg-pink-50 dark:bg-pink-950/40',
+                borderClass: 'border-pink-300 dark:border-pink-700',
+                textClass: 'text-pink-600 dark:text-pink-300',
+                badgeClass: 'bg-pink-400 text-slate-950 shadow-sm'
+            },
+            k: {
+                key: 'k',
+                name: '外部支援',
+                fullName: '產官學外部支援',
+                icon: 'fa-handshake-angle',
+                colorCode: '#a855f7',
+                bgClass: 'bg-purple-500',
+                lightBg: 'bg-purple-50 dark:bg-purple-950/40',
+                borderClass: 'border-purple-300 dark:border-purple-700',
+                textClass: 'text-purple-600 dark:text-purple-300',
+                badgeClass: 'bg-purple-500 text-white shadow-sm'
+            },
+            gold: {
+                key: 'gold',
+                name: '統籌款',
+                fullName: '校長統籌款（萬用）',
+                icon: 'fa-star',
+                colorCode: '#fbbf24',
+                bgClass: 'bg-amber-400',
+                lightBg: 'bg-amber-50 dark:bg-amber-950/40',
+                borderClass: 'border-amber-300 dark:border-amber-700',
+                textClass: 'text-amber-600 dark:text-amber-300',
+                badgeClass: 'bg-amber-400 text-slate-950 shadow-sm'
+            }
+        };
+
+        const MAIN_KEYS = ['u', 'g', 'r', 'w', 'k'];
+
+        /**
+         * 10 大教育榮譽獎項（每張皆有專屬日式校園圖標與條件）
+         */
+        const AWARDS_POOL = [
+            { id: 'N1', name: '教學卓越獎（金質獎）', desc: '頂尖校本課程架構與教師社群共備', icon: 'fa-crown', points: 3, req: { w: 4, u: 4 } },
+            { id: 'N2', name: 'Apple 傑出學校 (ADS)', desc: '智慧載具全面覆蓋並深度融入創新課程', icon: 'fa-tablet-screen-button', points: 3, req: { r: 4, w: 4 } },
+            { id: 'N3', name: '閱讀磐石獎', desc: '深耕跨域閱讀課程並結合外部文化資源', icon: 'fa-book-bookmark', points: 3, req: { w: 4, k: 4 } },
+            { id: 'N4', name: '國家環境教育獎', desc: '投入專案資金打造永續綠校園生態設施', icon: 'fa-seedling', points: 3, req: { r: 4, g: 4 } },
+            { id: 'N5', name: '產學攜手標竿學校', desc: '引進企業基金會資金與大專院校深度結盟', icon: 'fa-building-columns', points: 3, req: { k: 4, g: 4 } },
+            { id: 'N6', name: '教學卓越獎（銀質獎）', desc: '課程研發、師資團隊與教學空間三位一體', icon: 'fa-medal', points: 3, req: { w: 3, u: 3, r: 3 } },
+            { id: 'N7', name: '學校經營與教學創新國際認證獎', desc: '行政領導翻轉、財務精準配置與國際連結', icon: 'fa-earth-americas', points: 3, req: { u: 3, g: 3, k: 3 } },
+            { id: 'N8', name: '永續台灣創意獎', desc: 'SDGs創意課程、綠校園硬體與在地NGO共好', icon: 'fa-recycle', points: 3, req: { w: 3, r: 3, k: 3 } },
+            { id: 'N9', name: '教育部數位學習深耕典範獎', desc: '爭取競爭型經費落實科技設備與PBL課程', icon: 'fa-chalkboard-user', points: 3, req: { g: 3, r: 3, w: 3 } },
+            { id: 'N10', name: '杏壇芬芳錄團體獎', desc: '凝聚教師熱忱、家長會支持與溫馨校園環境', icon: 'fa-heart', points: 3, req: { u: 3, g: 3, r: 3 } }
+        ];
+
+        /**
+         * 90 張專案卡專屬圖標與主題標籤資料庫 (每張卡片都有個別ICON與標籤)
+         */
+        const CARD_ICONS_MAP = {
+            // 課程 w
+            '晨讀十分鐘與閱讀護照推行': { icon: 'fa-book-bookmark', tag: '晨讀推動' },
+            '彈性學習課程模組化盤點': { icon: 'fa-cubes-stacked', tag: '課程模組' },
+            '在地文化走讀學習單設計': { icon: 'fa-map-location-dot', tag: '鄉土走讀' },
+            '校本素養導向評量題庫建置': { icon: 'fa-clipboard-question', tag: '素養評量' },
+            '跨領域主題統整週課程': { icon: 'fa-puzzle-piece', tag: '跨域統整' },
+            '雙語生活美語情境微課程': { icon: 'fa-language', tag: '生活雙語' },
+            '資訊科技運算思維入門教案': { icon: 'fa-code', tag: '運算思維' },
+            '寒暑假自主學習探究營隊': { icon: 'fa-compass', tag: '探究營隊' },
+            'SDGs永續食農與生態跨領域課程': { icon: 'fa-seedling', tag: '永續食農' },
+            '戶外教育與山海走讀特色學程': { icon: 'fa-mountain-sun', tag: '山海戶外' },
+            'STEAM創客實作校訂必修模組': { icon: 'fa-robot', tag: '創客實作' },
+            '青少年公民行動與媒體素養專題': { icon: 'fa-bullhorn', tag: '公民思辨' },
+            '國際教育SIEP跨文化線上共學課程': { icon: 'fa-earth-americas', tag: '國際共學' },
+            '城市博物館走讀與PBL專題全面實施': { icon: 'fa-landmark', tag: '館校PBL' },
+            '全校性12年國教素養校本課程地圖': { icon: 'fa-map-signs', tag: '課程地圖' },
+            '雙語實驗教育標竿課程中心': { icon: 'fa-school-flag', tag: '雙語中心' },
+            'AI人工智慧融入各領域教學示範模組': { icon: 'fa-brain', tag: 'AI示範' },
+            '出版全校跨領域品牌專書與全國發表會': { icon: 'fa-book-journal-whills', tag: '品牌專書' },
+
+            // 人力 u
+            '新進教師薪傳輔導制度': { icon: 'fa-chalkboard-user', tag: '師資薪傳' },
+            '成立跨領域教學共備社群(PLC)': { icon: 'fa-users-rectangle', tag: '共備社群' },
+            '招募家長志工與交通導護大隊': { icon: 'fa-person-shelter', tag: '導護志工' },
+            '行政減量與表單數位化工作圈': { icon: 'fa-file-signature', tag: '行政減量' },
+            '學年主任與領域召集人共識營': { icon: 'fa-people-group', tag: '領域召集' },
+            '圖書志工故事媽媽培訓班': { icon: 'fa-book-open-reader', tag: '故事媽媽' },
+            '實習教師與師資生駐校陪伴制度': { icon: 'fa-user-graduate', tag: '實習培育' },
+            '特教與專輔人力增能工作坊': { icon: 'fa-hand-holding-heart', tag: '輔導增能' },
+            '雙語中外師協同教學團隊': { icon: 'fa-comments', tag: '外師協同' },
+            '公開授課與專業回饋進階認證團': { icon: 'fa-chalkboard', tag: '公開授課' },
+            '數位學習種子講師培力工作坊': { icon: 'fa-users-gear', tag: '種子講師' },
+            '跨校教師專業學習社群聯盟': { icon: 'fa-network-wired', tag: '跨校聯盟' },
+            '專任輔導與校園心理支持專業網': { icon: 'fa-heart-pulse', tag: '心理支持' },
+            '種子教師領導人才培力計畫': { icon: 'fa-graduation-cap', tag: '領導培育' },
+            '教育部教學訪問教師駐校領航團': { icon: 'fa-person-chalkboard', tag: '訪問駐校' },
+            '全國跨縣市自主學習社群核心團隊': { icon: 'fa-people-arrows', tag: '自主社群' },
+            '國際IB認證師資全校培訓體系': { icon: 'fa-certificate', tag: 'IB認證' },
+            '全國公開授課與跨縣市典範學習基地': { icon: 'fa-trophy', tag: '典範基地' },
+
+            // 資金 g
+            '家長會年度募款與校務支持基金': { icon: 'fa-piggy-bank', tag: '家長基金' },
+            '申請教育部基層小型計畫補助': { icon: 'fa-file-invoice-dollar', tag: '小額補助' },
+            '校園場地課後開放租借活化': { icon: 'fa-building-columns', tag: '空間活化' },
+            '合作社公益盈餘回饋專款': { icon: 'fa-store', tag: '合作社款' },
+            '申請地方政府藝文深耕補助款': { icon: 'fa-palette', tag: '藝文深耕' },
+            '里辦公室小型社區共好經費挹注': { icon: 'fa-house-chimney-window', tag: '社區共好' },
+            '歷屆傑出校友小額定期捐款': { icon: 'fa-hand-holding-dollar', tag: '校友定捐' },
+            '校友會教育儲蓄專戶成立': { icon: 'fa-vault', tag: '教育儲蓄' },
+            '爭取縣市重點特色學校專案補助': { icon: 'fa-stamp', tag: '特色補助' },
+            '教育部數位學習精進方案專案款': { icon: 'fa-laptop-file', tag: '數位專款' },
+            '營造空間美學與特色學校競爭型經費': { icon: 'fa-wand-magic-sparkles', tag: '美學空間' },
+            '家長會企業聯名公益專款挹注': { icon: 'fa-briefcase', tag: '企業聯名' },
+            '科技教育與自造教育中心補助案': { icon: 'fa-microchip', tag: '科技自造' },
+            '知名企業基金會三年期認養計畫': { icon: 'fa-hands-holding-circle', tag: '企業認養' },
+            '百萬級民間教育公益信託基金常駐': { icon: 'fa-gem', tag: '信託基金' },
+            '跨部會城鄉共好千萬級旗艦計畫款': { icon: 'fa-sack-dollar', tag: '城鄉旗艦' },
+            '大型企業CSR永續校園冠名贊助基金': { icon: 'fa-building-circle-check', tag: 'CSR冠名' },
+            '獲選教育部大型前瞻基礎建設示範校': { icon: 'fa-monument', tag: '前瞻建設' },
+
+            // 設備 r
+            '班班有網路與生生用平板基礎建置': { icon: 'fa-tablet-screen-button', tag: '生生平板' },
+            '圖書館老舊藏書汰換與主題採購': { icon: 'fa-book', tag: '圖書汰換' },
+            '校園無障礙空間與節能燈具改善': { icon: 'fa-wheelchair', tag: '無障礙' },
+            '普通教室超短焦投影與大屏更新': { icon: 'fa-display', tag: '觸控大屏' },
+            '校園生態教材園與雨水回收桶': { icon: 'fa-faucet-drip', tag: '雨水生態' },
+            '運動場地安全墊與體適能器材增購': { icon: 'fa-basketball', tag: '體適能' },
+            '專科教室通風與安全收納櫃升級': { icon: 'fa-flask', tag: '專科實驗' },
+            '數位多媒體廣播系統全面升級': { icon: 'fa-bullhorn', tag: '多媒廣播' },
+            '打造社區共讀站與美感圖書館': { icon: 'fa-book-atlas', tag: '美感讀站' },
+            '建置創客雷雕與3D列印實作工坊': { icon: 'fa-print', tag: '3D雷雕' },
+            '太陽光電風雨球場與綠能發電系統': { icon: 'fa-solar-panel', tag: '綠能球場' },
+            '雙語沉浸式情境走廊與智慧教室': { icon: 'fa-door-open', tag: '雙語廊道' },
+            '多功能黑盒子展演廳與錄播攝影棚': { icon: 'fa-video', tag: '黑盒展演' },
+            '建置AIoT智慧創客與雙語情境基地': { icon: 'fa-satellite-dish', tag: 'AIoT基地' },
+            '全校智慧環控與EMS能源管理系統': { icon: 'fa-gauge-high', tag: 'EMS能管' },
+            '未來教室XR元宇宙虛擬實境實驗室': { icon: 'fa-vr-cardboard', tag: 'XR元宇宙' },
+            '生態滯洪池與戶外探索教育基地': { icon: 'fa-tree', tag: '探索滯洪' },
+            '鑽石級綠建築與淨零碳排智慧校園落成': { icon: 'fa-city', tag: '鑽石綠建' },
+
+            // 外部支援 k
+            '社區里長與鄰近派出所安全聯防': { icon: 'fa-shield-halved', tag: '安全聯防' },
+            '邀請在地百工職人入校生涯講座': { icon: 'fa-user-tie', tag: '職人生涯' },
+            '鄰近高職技藝教育抽離式合作': { icon: 'fa-wrench', tag: '技藝合作' },
+            '地方文史工作室走讀導覽協作': { icon: 'fa-scroll', tag: '文史導覽' },
+            '衛生所與醫療院所衛教駐點服務': { icon: 'fa-kit-medical', tag: '衛教駐點' },
+            '在地農會食農教育體驗契作': { icon: 'fa-wheat-awn', tag: '農會契作' },
+            '市立圖書館行動書車定期駐校': { icon: 'fa-truck-fast', tag: '行動書車' },
+            '大專院校服務學習社團駐校伴讀': { icon: 'fa-hands-holding-child', tag: '伴讀社團' },
+            '與科技大學簽署策略聯盟MOU': { icon: 'fa-file-contract', tag: '科大MOU' },
+            '引入非營利組織(NGO)長程陪伴計畫': { icon: 'fa-hand-holding-heart', tag: 'NGO陪伴' },
+            '科學博物館到校巡迴展與館校合作': { icon: 'fa-atom', tag: '科博巡迴' },
+            '在地企業職場體驗與業師協同教學': { icon: 'fa-building', tag: '職場體驗' },
+            '跨校策略聯盟共享選修課程平台': { icon: 'fa-share-nodes', tag: '共享選修' },
+            '跨國姊妹校線上交流與互訪機制': { icon: 'fa-plane-departure', tag: '姊妹校互訪' },
+            '國家級研究機構實驗室高中小攜手計畫': { icon: 'fa-dna', tag: '國家實驗' },
+            '國際姊妹校雙聯學制與交換生基地': { icon: 'fa-passport', tag: '雙聯學制' },
+            '跨國科技大廠教育公益全面策略結盟': { icon: 'fa-handshake-simple', tag: '大廠結盟' },
+            '產官學研四方攜手長程人才培育中心': { icon: 'fa-scale-unbalanced-flip', tag: '四方培育' }
+        };
+
+        const PROJECT_NAMES_BY_BONUS = {
+            w: {
+                1: ['晨讀十分鐘與閱讀護照推行', '彈性學習課程模組化盤點', '在地文化走讀學習單設計', '校本素養導向評量題庫建置', '跨領域主題統整週課程', '雙語生活美語情境微課程', '資訊科技運算思維入門教案', '寒暑假自主學習探究營隊'],
+                2: ['SDGs永續食農與生態跨領域課程', '戶外教育與山海走讀特色學程', 'STEAM創客實作校訂必修模組', '青少年公民行動與媒體素養專題', '國際教育SIEP跨文化線上共學課程', '城市博物館走讀與PBL專題全面實施'],
+                3: ['全校性12年國教素養校本課程地圖', '雙語實驗教育標竿課程中心', 'AI人工智慧融入各領域教學示範模組', '出版全校跨領域品牌專書與全國發表會']
+            },
+            u: {
+                1: ['新進教師薪傳輔導制度', '成立跨領域教學共備社群(PLC)', '招募家長志工與交通導護大隊', '行政減量與表單數位化工作圈', '學年主任與領域召集人共識營', '圖書志工故事媽媽培訓班', '實習教師與師資生駐校陪伴制度', '特教與專輔人力增能工作坊'],
+                2: ['雙語中外師協同教學團隊', '公開授課與專業回饋進階認證團', '數位學習種子講師培力工作坊', '跨校教師專業學習社群聯盟', '專任輔導與校園心理支持專業網', '種子教師領導人才培力計畫'],
+                3: ['教育部教學訪問教師駐校領航團', '全國跨縣市自主學習社群核心團隊', '國際IB認證師資全校培訓體系', '全國公開授課與跨縣市典範學習基地']
+            },
+            g: {
+                1: ['家長會年度募款與校務支持基金', '申請教育部基層小型計畫補助', '校園場地課後開放租借活化', '合作社公益盈餘回饋專款', '申請地方政府藝文深耕補助款', '里辦公室小型社區共好經費挹注', '歷屆傑出校友小額定期捐款', '校友會教育儲蓄專戶成立'],
+                2: ['爭取縣市重點特色學校專案補助', '教育部數位學習精進方案專案款', '營造空間美學與特色學校競爭型經費', '家長會企業聯名公益專款挹注', '科技教育與自造教育中心補助案', '知名企業基金會三年期認養計畫'],
+                3: ['百萬級民間教育公益信託基金常駐', '跨部會城鄉共好千萬級旗艦計畫款', '大型企業CSR永續校園冠名贊助基金', '獲選教育部大型前瞻基礎建設示範校']
+            },
+            r: {
+                1: ['班班有網路與生生用平板基礎建置', '圖書館老舊藏書汰換與主題採購', '校園無障礙空間與節能燈具改善', '普通教室超短焦投影與大屏更新', '校園生態教材園與雨水回收桶', '運動場地安全墊與體適能器材增購', '專科教室通風與安全收納櫃升級', '數位多媒體廣播系統全面升級'],
+                2: ['打造社區共讀站與美感圖書館', '建置創客雷雕與3D列印實作工坊', '太陽光電風雨球場與綠能發電系統', '雙語沉浸式情境走廊與智慧教室', '多功能黑盒子展演廳與錄播攝影棚', '建置AIoT智慧創客與雙語情境基地'],
+                3: ['全校智慧環控與EMS能源管理系統', '未來教室XR元宇宙虛擬實境實驗室', '生態滯洪池與戶外探索教育基地', '鑽石級綠建築與淨零碳排智慧校園落成']
+            },
+            k: {
+                1: ['社區里長與鄰近派出所安全聯防', '邀請在地百工職人入校生涯講座', '鄰近高職技藝教育抽離式合作', '地方文史工作室走讀導覽協作', '衛生所與醫療院所衛教駐點服務', '在地農會食農教育體驗契作', '市立圖書館行動書車定期駐校', '大專院校服務學習社團駐校伴讀'],
+                2: ['與科技大學簽署策略聯盟MOU', '引入非營利組織(NGO)長程陪伴計畫', '科學博物館到校巡迴展與館校合作', '在地企業職場體驗與業師協同教學', '跨校策略聯盟共享選修課程平台', '跨國姊妹校線上交流與互訪機制'],
+                3: ['國家級研究機構實驗室高中小攜手計畫', '國際姊妹校雙聯學制與交換生基地', '跨國科技大廠教育公益全面策略結盟', '產官學研四方攜手長程人才培育中心']
+            }
+        };
+
+        function buildFull90CardsCatalog() {
+            const rawCards = [
+                // LEVEL 1: w (課程)
+                { tier: 1, bonus: 'w', points: 0, cost: { u: 3 } },
+                { tier: 1, bonus: 'w', points: 0, cost: { r: 2, k: 1 } },
+                { tier: 1, bonus: 'w', points: 0, cost: { u: 2, k: 2 } },
+                { tier: 1, bonus: 'w', points: 0, cost: { w: 3, u: 1, k: 1 } },
+                { tier: 1, bonus: 'w', points: 0, cost: { u: 2, g: 2, k: 1 } },
+                { tier: 1, bonus: 'w', points: 0, cost: { u: 1, g: 1, r: 1, k: 1 } },
+                { tier: 1, bonus: 'w', points: 0, cost: { u: 1, g: 2, r: 1, k: 1 } },
+                { tier: 1, bonus: 'w', points: 1, cost: { g: 4 } },
+
+                // LEVEL 1: u (人力)
+                { tier: 1, bonus: 'u', points: 0, cost: { k: 3 } },
+                { tier: 1, bonus: 'u', points: 0, cost: { w: 1, k: 2 } },
+                { tier: 1, bonus: 'u', points: 0, cost: { g: 2, k: 2 } },
+                { tier: 1, bonus: 'u', points: 0, cost: { u: 1, g: 3, r: 1 } },
+                { tier: 1, bonus: 'u', points: 0, cost: { w: 1, g: 2, r: 2 } },
+                { tier: 1, bonus: 'u', points: 0, cost: { w: 1, g: 1, r: 1, k: 1 } },
+                { tier: 1, bonus: 'u', points: 0, cost: { w: 1, g: 2, r: 2, k: 1 } },
+                { tier: 1, bonus: 'u', points: 1, cost: { r: 4 } },
+
+                // LEVEL 1: g (資金)
+                { tier: 1, bonus: 'g', points: 0, cost: { r: 3 } },
+                { tier: 1, bonus: 'g', points: 0, cost: { w: 2, u: 1 } },
+                { tier: 1, bonus: 'g', points: 0, cost: { u: 2, r: 2 } },
+                { tier: 1, bonus: 'g', points: 0, cost: { w: 1, u: 3, g: 1 } },
+                { tier: 1, bonus: 'g', points: 0, cost: { u: 1, r: 2, k: 2 } },
+                { tier: 1, bonus: 'g', points: 0, cost: { w: 1, u: 1, r: 1, k: 1 } },
+                { tier: 1, bonus: 'g', points: 0, cost: { w: 1, u: 1, r: 1, k: 2 } },
+                { tier: 1, bonus: 'g', points: 1, cost: { k: 4 } },
+
+                // LEVEL 1: r (設備)
+                { tier: 1, bonus: 'r', points: 0, cost: { w: 3 } },
+                { tier: 1, bonus: 'r', points: 0, cost: { u: 2, g: 1 } },
+                { tier: 1, bonus: 'r', points: 0, cost: { w: 2, r: 2 } },
+                { tier: 1, bonus: 'r', points: 0, cost: { w: 1, r: 1, k: 3 } },
+                { tier: 1, bonus: 'r', points: 0, cost: { w: 2, g: 1, k: 2 } },
+                { tier: 1, bonus: 'r', points: 0, cost: { w: 1, u: 1, g: 1, k: 1 } },
+                { tier: 1, bonus: 'r', points: 0, cost: { w: 2, u: 1, g: 1, k: 1 } },
+                { tier: 1, bonus: 'r', points: 1, cost: { w: 4 } },
+
+                // LEVEL 1: k (外部支援)
+                { tier: 1, bonus: 'k', points: 0, cost: { g: 3 } },
+                { tier: 1, bonus: 'k', points: 0, cost: { g: 2, r: 1 } },
+                { tier: 1, bonus: 'k', points: 0, cost: { w: 2, g: 2 } },
+                { tier: 1, bonus: 'k', points: 0, cost: { g: 1, r: 3, k: 1 } },
+                { tier: 1, bonus: 'k', points: 0, cost: { w: 2, u: 2, r: 1 } },
+                { tier: 1, bonus: 'k', points: 0, cost: { w: 1, u: 1, g: 1, r: 1 } },
+                { tier: 1, bonus: 'k', points: 0, cost: { w: 1, u: 2, g: 1, r: 1 } },
+                { tier: 1, bonus: 'k', points: 1, cost: { u: 4 } },
+
+                // LEVEL 2: w (課程)
+                { tier: 2, bonus: 'w', points: 1, cost: { g: 3, r: 2, k: 2 } },
+                { tier: 2, bonus: 'w', points: 1, cost: { w: 2, u: 3, r: 3 } },
+                { tier: 2, bonus: 'w', points: 2, cost: { r: 5 } },
+                { tier: 2, bonus: 'w', points: 2, cost: { r: 5, k: 3 } },
+                { tier: 2, bonus: 'w', points: 2, cost: { g: 1, r: 4, k: 2 } },
+                { tier: 2, bonus: 'w', points: 3, cost: { w: 6 } },
+
+                // LEVEL 2: u (人力)
+                { tier: 2, bonus: 'u', points: 1, cost: { u: 2, g: 2, r: 3 } },
+                { tier: 2, bonus: 'u', points: 1, cost: { u: 2, g: 3, k: 3 } },
+                { tier: 2, bonus: 'u', points: 2, cost: { u: 5 } },
+                { tier: 2, bonus: 'u', points: 2, cost: { w: 5, u: 3 } },
+                { tier: 2, bonus: 'u', points: 2, cost: { w: 2, r: 1, k: 4 } },
+                { tier: 2, bonus: 'u', points: 3, cost: { u: 6 } },
+
+                // LEVEL 2: g (資金)
+                { tier: 2, bonus: 'g', points: 1, cost: { w: 2, u: 3, k: 2 } },
+                { tier: 2, bonus: 'g', points: 1, cost: { w: 3, g: 2, r: 3 } },
+                { tier: 2, bonus: 'g', points: 2, cost: { g: 5 } },
+                { tier: 2, bonus: 'g', points: 2, cost: { u: 5, g: 3 } },
+                { tier: 2, bonus: 'g', points: 2, cost: { w: 4, u: 2, k: 1 } },
+                { tier: 2, bonus: 'g', points: 3, cost: { g: 6 } },
+
+                // LEVEL 2: r (設備)
+                { tier: 2, bonus: 'r', points: 1, cost: { w: 2, r: 2, k: 3 } },
+                { tier: 2, bonus: 'r', points: 1, cost: { u: 3, r: 2, k: 3 } },
+                { tier: 2, bonus: 'r', points: 2, cost: { k: 5 } },
+                { tier: 2, bonus: 'r', points: 2, cost: { w: 3, k: 5 } },
+                { tier: 2, bonus: 'r', points: 2, cost: { w: 1, u: 4, g: 2 } },
+                { tier: 2, bonus: 'r', points: 3, cost: { r: 6 } },
+
+                // LEVEL 2: k (外部支援)
+                { tier: 2, bonus: 'k', points: 1, cost: { w: 3, u: 2, g: 2 } },
+                { tier: 2, bonus: 'k', points: 1, cost: { w: 3, g: 3, k: 2 } },
+                { tier: 2, bonus: 'k', points: 2, cost: { w: 5 } },
+                { tier: 2, bonus: 'k', points: 2, cost: { g: 5, r: 3 } },
+                { tier: 2, bonus: 'k', points: 2, cost: { u: 1, g: 4, r: 2 } },
+                { tier: 2, bonus: 'k', points: 3, cost: { k: 6 } },
+
+                // LEVEL 3: w (課程)
+                { tier: 3, bonus: 'w', points: 3, cost: { u: 3, g: 3, r: 5, k: 3 } },
+                { tier: 3, bonus: 'w', points: 4, cost: { k: 7 } },
+                { tier: 3, bonus: 'w', points: 4, cost: { w: 3, r: 3, k: 6 } },
+                { tier: 3, bonus: 'w', points: 5, cost: { w: 3, k: 7 } },
+
+                // LEVEL 3: u (人力)
+                { tier: 3, bonus: 'u', points: 3, cost: { w: 3, g: 3, r: 3, k: 5 } },
+                { tier: 3, bonus: 'u', points: 4, cost: { w: 7 } },
+                { tier: 3, bonus: 'u', points: 4, cost: { w: 6, u: 3, k: 3 } },
+                { tier: 3, bonus: 'u', points: 5, cost: { w: 7, u: 3 } },
+
+                // LEVEL 3: g (資金)
+                { tier: 3, bonus: 'g', points: 3, cost: { w: 5, u: 3, r: 3, k: 3 } },
+                { tier: 3, bonus: 'g', points: 4, cost: { u: 7 } },
+                { tier: 3, bonus: 'g', points: 4, cost: { w: 3, u: 6, g: 3 } },
+                { tier: 3, bonus: 'g', points: 5, cost: { u: 7, g: 3 } },
+
+                // LEVEL 3: r (設備)
+                { tier: 3, bonus: 'r', points: 3, cost: { w: 3, u: 5, g: 3, k: 3 } },
+                { tier: 3, bonus: 'r', points: 4, cost: { g: 7 } },
+                { tier: 3, bonus: 'r', points: 4, cost: { u: 3, g: 6, r: 3 } },
+                { tier: 3, bonus: 'r', points: 5, cost: { g: 7, r: 3 } },
+
+                // LEVEL 3: k (外部支援)
+                { tier: 3, bonus: 'k', points: 3, cost: { w: 3, u: 3, g: 5, r: 3 } },
+                { tier: 3, bonus: 'k', points: 4, cost: { r: 7 } },
+                { tier: 3, bonus: 'k', points: 4, cost: { g: 3, r: 6, k: 3 } },
+                { tier: 3, bonus: 'k', points: 5, cost: { r: 7, k: 3 } }
+            ];
+
+            const counters = { w: { 1: 0, 2: 0, 3: 0 }, u: { 1: 0, 2: 0, 3: 0 }, g: { 1: 0, 2: 0, 3: 0 }, r: { 1: 0, 2: 0, 3: 0 }, k: { 1: 0, 2: 0, 3: 0 } };
+
+            return rawCards.map((c, idx) => {
+                const nameIdx = counters[c.bonus][c.tier]++;
+                const title = PROJECT_NAMES_BY_BONUS[c.bonus][c.tier][nameIdx];
+                const meta = CARD_ICONS_MAP[title] || { icon: 'fa-graduation-cap', tag: '校務專案' };
+                return {
+                    id: `C${idx + 1}`,
+                    tier: c.tier,
+                    bonus: c.bonus,
+                    points: c.points,
+                    cost: { u: c.cost.u || 0, g: c.cost.g || 0, r: c.cost.r || 0, w: c.cost.w || 0, k: c.cost.k || 0 },
+                    title,
+                    icon: meta.icon,
+                    tag: meta.tag
+                };
+            });
+        }
+
+        const ALL_90_CARDS = buildFull90CardsCatalog();
+
+        /**
+         * 8 大學年度突發校務事件卡
+         */
+        const SCHOOL_EVENTS_POOL = [
+            {
+                id: 'EV1',
+                title: '少子化減班與超額教師危機',
+                category: '人口結構挑戰',
+                icon: 'fa-user-minus',
+                badgeClass: 'bg-rose-500 text-white',
+                desc: '學區新生報到人數驟減，面臨減班與教師超額調動壓力。唯有平日已建立穩固「教師專業社群與人力制度」或具備特色課程吸引跨區就讀的學校能穩定軍心。',
+                ruleText: '【人力或課程紅利 ≥ 2】的學校獲得 1 枚🔵人力或⚪課程籌碼；未達標且手頭有🔵人力籌碼者，流失 1 枚🔵人力籌碼回供應區。',
+                discussion: '面對少子化生源減少，我們學校該優先「發展亮點特色課程吸引學生」，還是先「穩定校內行政與教師社群向心力」？',
+                applyEffect: (gs) => {
+                    return gs.players.map(p => {
+                        if (p.bonuses.u >= 2 || p.bonuses.w >= 2) {
+                            if (gs.bank.u > 0) {
+                                gs.bank.u--;
+                                p.tokens.u++;
+                                return `🌸 【${p.name}】師資制度穩固，逆勢吸引優秀夥伴（獲得 1 枚🔵人力）！`;
+                            }
+                            return `🌸 【${p.name}】師資制度穩固，安然度過減班危機！`;
+                        } else if (p.tokens.u > 0) {
+                            p.tokens.u--;
+                            gs.bank.u++;
+                            return `⚠️ 【${p.name}】尚未建立常態師資紅利，流失 1 枚🔵人力籌碼。`;
+                        }
+                        return `➖ 【${p.name}】目前無人力籌碼流失，需加速累積師資紅利。`;
+                    });
+                }
+            },
+            {
+                id: 'EV2',
+                title: '教育部前瞻數位與雙語專案補助開跑',
+                category: '政策競爭型經費',
+                icon: 'fa-rocket',
+                badgeClass: 'bg-emerald-500 text-white',
+                desc: '教育部公告年度重點競爭型計畫，凡校內已有「待執行簽呈立案（保留卡）」或已具備「課程研發紅利」的學校，能第一時間送件並獲核撥專案經費！',
+                ruleText: '手中【有簽呈立案保留卡】或【⚪課程紅利 ≥ 1】的學校，立即獲發 1 枚🟢資金籌碼（若資金池耗盡則改領🟡統籌款）。',
+                discussion: '當上級突然釋出大型競爭型計畫補助時，學校平時如何預先「儲備教案與提案點子（簽呈立案）」，避免臨時抱佛腳？',
+                applyEffect: (gs) => {
+                    return gs.players.map(p => {
+                        if (p.reserved.length > 0 || p.bonuses.w >= 1) {
+                            if (gs.bank.g > 0) {
+                                gs.bank.g--;
+                                p.tokens.g++;
+                                return `🎉 【${p.name}】企劃儲備充裕，獲核撥 1 枚🟢資金籌碼！`;
+                            } else if (gs.bank.gold > 0) {
+                                gs.bank.gold--;
+                                p.tokens.gold++;
+                                return `🎉 【${p.name}】企劃儲備充裕，獲核撥 1 枚🟡校長統籌款！`;
+                            }
+                            return `🌸 【${p.name}】符合補助資格（但供應區資金已滿載）。`;
+                        }
+                        return `➖ 【${p.name}】因尚無立案計畫與課程基礎，錯失本次申請機會。`;
+                    });
+                }
+            },
+            {
+                id: 'EV3',
+                title: '駐區督學與課程評鑑委員臨時到校視導',
+                category: '校務評鑑視導',
+                icon: 'fa-clipboard-check',
+                badgeClass: 'bg-amber-400 text-slate-950',
+                desc: '教育局處啟動學期中無預警到校訪視，重點檢視各校「基礎扎根專案（Lv.1）」的落實度與校本課程推動情形。',
+                ruleText: '已完成【至少 2 項專案卡】的學校獲高度肯定，直接獲得 +1 點辦學聲望（分數）！未滿 2 項專案的學校則獲得 1 枚⚪課程籌碼作為輔導支持。',
+                discussion: '在追求「亮點大獎」與「日常基礎行政教學扎根」之間，學校團隊如何平衡時間與心力？',
+                applyEffect: (gs) => {
+                    return gs.players.map(p => {
+                        if (p.projects.length >= 2) {
+                            p.points += 1;
+                            return `🏆 【${p.name}】校務常態化落實度極佳，獲督學嘉勉（+1 點辦學聲望）！`;
+                        } else if (gs.bank.w > 0) {
+                            gs.bank.w--;
+                            p.tokens.w++;
+                            return `📘 【${p.name}】獲課程輔導團入校陪伴，領取 1 枚⚪課程籌碼。`;
+                        }
+                        return `➖ 【${p.name}】接受視導委員建議，持續累積基層專案。`;
+                    });
+                }
+            },
+            {
+                id: 'EV4',
+                title: '強颱過境與校園老舊設施緊急搶修',
+                category: '校園危機應變',
+                icon: 'fa-cloud-showers-heavy',
+                badgeClass: 'bg-rose-500 text-white',
+                desc: '極端氣候強降雨造成部分教室漏水與樹木傾倒，考驗學校平時的「校園設備維護紅利」與「緊急預備金（資金/統籌款）」調度能力。',
+                ruleText: '擁有【🔴設備紅利 ≥ 2】的學校因防災設施完善不受影響，還可獲頒 1 枚⚫外部支援籌碼（里長與志工協作）；未達標者須消耗 1 枚🟢資金或🔴設備籌碼搶修（若有）。',
+                discussion: '面對突發校園安全或公關危機，學校的「危機應變SOP」與「資源彈性調度機制」是什麼？',
+                applyEffect: (gs) => {
+                    return gs.players.map(p => {
+                        if (p.bonuses.r >= 2) {
+                            if (gs.bank.k > 0) {
+                                gs.bank.k--;
+                                p.tokens.k++;
+                                return `🛡️ 【${p.name}】綠校園防災韌性極佳，成為社區避難基地（獲 1 枚⚫外部支援）！`;
+                            }
+                            return `🛡️ 【${p.name}】防災硬體完善，平安度過風災！`;
+                        } else if (p.tokens.g > 0) {
+                            p.tokens.g--;
+                            gs.bank.g++;
+                            return `🔧 【${p.name}】緊急動支 1 枚🟢資金籌碼進行災後搶修。`;
+                        } else if (p.tokens.r > 0) {
+                            p.tokens.r--;
+                            gs.bank.r++;
+                            return `🔧 【${p.name}】緊急調度 1 枚🔴設備籌碼進行復原。`;
+                        }
+                        return `➖ 【${p.name}】由教育局災害準備金協助完成基礎修繕。`;
+                    });
+                }
+            },
+            {
+                id: 'EV5',
+                title: '家長會與傑出校友會年度感恩募款晚會',
+                category: '社區與校友共好',
+                icon: 'fa-hand-holding-heart',
+                badgeClass: 'bg-purple-500 text-white',
+                desc: '校友會與家長會聯合舉辦校慶感恩募款，積極連結「外部支援」與展現辦學口碑的學校，獲得企業校友熱烈解囊！',
+                ruleText: '擁有【⚫外部支援紅利 ≥ 1】的學校獲得 1 枚🟡校長統籌款（萬用）；其餘學校亦可獲得 1 枚🟢資金籌碼。',
+                discussion: '家長會、校友會與在地社區是學校的重要資產，我們可以透過哪些具體作法把「外部助力」轉化為長期的辦學支持？',
+                applyEffect: (gs) => {
+                    return gs.players.map(p => {
+                        if (p.bonuses.k >= 1 && gs.bank.gold > 0) {
+                            gs.bank.gold--;
+                            p.tokens.gold++;
+                            return `🌟 【${p.name}】深耕外部關係有成，獲校友會致贈 1 枚🟡校長統籌款！`;
+                        } else if (gs.bank.g > 0) {
+                            gs.bank.g--;
+                            p.tokens.g++;
+                            return `💰 【${p.name}】獲家長會年度常態挹注 1 枚🟢資金籌碼。`;
+                        }
+                        return `🌸 【${p.name}】家長會表達高度肯定。`;
+                    });
+                }
+            },
+            {
+                id: 'EV6',
+                title: '全縣市跨校公開授課與數位教學博覽會',
+                category: '專業社群交流',
+                icon: 'fa-chalkboard-user',
+                badgeClass: 'bg-sky-500 text-white',
+                desc: '全市舉辦年度教學創新博覽會，各校推派種子教師進行公開授課與數位專題展示，促成跨校資源大流通！',
+                ruleText: '全體學校皆可從供應區獲得 1 枚【自己目前紅利最少之向度】的資源籌碼，協助補強辦學短板！',
+                discussion: '透過跨校參訪與公開觀議課，我們最希望為學校補齊哪一個向度（人力、課程、設備、資金、外部支援）的能量？',
+                applyEffect: (gs) => {
+                    return gs.players.map(p => {
+                        const sortedDims = [...MAIN_KEYS].sort((a, b) => p.bonuses[a] - p.bonuses[b]);
+                        const targetDim = sortedDims.find(k => gs.bank[k] > 0);
+                        if (targetDim) {
+                            gs.bank[targetDim]--;
+                            p.tokens[targetDim]++;
+                            return `🤝 【${p.name}】跨校共備補強短板，獲得 1 枚【${DIMENSIONS[targetDim].name}】籌碼！`;
+                        }
+                        return `🤝 【${p.name}】參與博覽會交流收穫滿載！`;
+                    });
+                }
+            },
+            {
+                id: 'EV7',
+                title: '行政減量與校務數位轉型全面檢核',
+                category: '行政效能革新',
+                icon: 'fa-laptop-file',
+                badgeClass: 'bg-emerald-500 text-slate-950',
+                desc: '為落實「把時間還給老師、把心力留給學生」，推動表單數位化與跨處室資源盤點，避免資源閒置囤積。',
+                ruleText: '手頭囤積【超過 6 枚資源籌碼】卻尚未投入專案的學校，須繳回 1 枚籌碼以落實預算執行率；手頭資源 ≤ 6 枚的高執行率學校，獲獎勵 1 枚🔵人力或🔴設備籌碼！',
+                discussion: '在學校行政實務上，有哪些流於形式的會議或文書可以透過「數位工具」或「跨處室整合」來真正減量？',
+                applyEffect: (gs) => {
+                    return gs.players.map(p => {
+                        const total = getPlayerTotalTokens(p);
+                        if (total > 6) {
+                            const k = MAIN_KEYS.find(key => p.tokens[key] > 0) || 'gold';
+                            p.tokens[k]--;
+                            gs.bank[k]++;
+                            return `📉 【${p.name}】手頭資源達 ${total} 枚，預算執行率檢核收回 1 枚【${DIMENSIONS[k].name}】。`;
+                        } else {
+                            const gainKey = gs.bank.u > 0 ? 'u' : (gs.bank.r > 0 ? 'r' : null);
+                            if (gainKey) {
+                                gs.bank[gainKey]--;
+                                p.tokens[gainKey]++;
+                                return `⚡ 【${p.name}】行政敏捷度優異，獲獎勵 1 枚【${DIMENSIONS[gainKey].name}】籌碼！`;
+                            }
+                            return `⚡ 【${p.name}】行政敏捷效能獲肯定！`;
+                        }
+                    });
+                }
+            },
+            {
+                id: 'EV8',
+                title: 'SDGs 國際永續教育夥伴學校締結邀請',
+                category: '國際跨域亮點',
+                icon: 'fa-earth-asia',
+                badgeClass: 'bg-purple-500 text-white',
+                desc: '國外姊妹校與永續發展教育基金會來訪，尋找具備「跨領域發展（擁有至少 3 種不同向度紅利）」的學校簽署合作備忘錄！',
+                ruleText: '場上已擁有【3 個（含）以上不同向度永久紅利】的學校，獲得 +1 點辦學聲望與 1 枚⚫外部支援籌碼！',
+                discussion: '推動國際教育或 SDGs 永續校園時，如何避免變成單一處室的業務，而是全校師生有感的跨域行動？',
+                applyEffect: (gs) => {
+                    return gs.players.map(p => {
+                        const distinctBonuses = MAIN_KEYS.filter(k => p.bonuses[k] > 0).length;
+                        if (distinctBonuses >= 3) {
+                            p.points += 1;
+                            let extra = '';
+                            if (gs.bank.k > 0) {
+                                gs.bank.k--;
+                                p.tokens.k++;
+                                extra = ' 與 1 枚⚫外部支援籌碼';
+                            }
+                            return `🌍 【${p.name}】具備 ${distinctBonuses} 項均衡紅利，成功締結國際夥伴（+1 分${extra}）！`;
+                        }
+                        return `➖ 【${p.name}】目前具備 ${distinctBonuses} 種向度紅利，持續朝跨領域邁進。`;
+                    });
+                }
+            }
+        ];
+
+        /**
+         * 4 大日式萌系校園經營團隊設定
+         */
+        const TEAM_PRESETS = [
+            {
+                name: '🌸 晨光實驗中學',
+                role: '學生會長・櫻庭葵',
+                avatar: 'mascot.png',
+                motto: '全人素養・探索無限',
+                badgeColor: 'border-pink-300 bg-pink-50 text-pink-600'
+            },
+            {
+                name: '🐱 博雅貓咪高校',
+                role: '圖書委員・咪露醬',
+                avatar: 'avatar_cat.png',
+                motto: '書香共讀・溫暖校園',
+                badgeColor: 'border-sky-300 bg-sky-50 text-sky-600'
+            },
+            {
+                name: '📱 山海創客高工',
+                role: '科技部長・蓮井悠',
+                avatar: 'avatar_boy.png',
+                motto: '智慧科技・手作實踐',
+                badgeColor: 'border-emerald-300 bg-emerald-50 text-emerald-600'
+            },
+            {
+                name: '🎨 星願柴犬藝校',
+                role: '美術社長・柴崎汪',
+                avatar: 'avatar_shiba.png',
+                motto: '美感創藝・閃耀全台',
+                badgeColor: 'border-amber-300 bg-amber-50 text-amber-600'
+            }
+        ];
+
+        let gameState = {
+            preset: '1P_1AI',
+            targetScore: 15,
+            eventFrequency: 3,
+            round: 1,
+            currentPlayerIndex: 0,
+            finalRoundTriggered: false,
+            gameOver: false,
+            bank: { u: 4, g: 4, r: 4, w: 4, k: 4, gold: 5 },
+            decks: { 1: [], 2: [], 3: [] },
+            market: { 1: [], 2: [], 3: [] },
+            awards: [],
+            players: [],
+            draftTokens: [],
+            selectedModalContext: null,
+            eventDeck: [],
+            lastTriggeredEvent: null
+        };
+
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function initGame(preset = gameState.preset, targetScore = gameState.targetScore) {
+            gameState.preset = preset;
+            gameState.targetScore = targetScore;
+            gameState.round = 1;
+            gameState.currentPlayerIndex = 0;
+            gameState.finalRoundTriggered = false;
+            gameState.gameOver = false;
+            gameState.draftTokens = [];
+            gameState.eventDeck = shuffleArray(SCHOOL_EVENTS_POOL);
+            gameState.lastTriggeredEvent = null;
+
+            const banner = document.getElementById('activeEventBanner');
+            banner.classList.add('hidden');
+            banner.classList.remove('flex');
+
+            let playerConfigs = [];
+            if (preset === '1P_1AI') {
+                playerConfigs = [
+                    { ...TEAM_PRESETS[0], isAI: false },
+                    { ...TEAM_PRESETS[1], isAI: true }
+                ];
+            } else if (preset === '1P_2AI') {
+                playerConfigs = [
+                    { ...TEAM_PRESETS[0], isAI: false },
+                    { ...TEAM_PRESETS[1], isAI: true },
+                    { ...TEAM_PRESETS[2], isAI: true }
+                ];
+            } else if (preset === '2P_LOCAL') {
+                playerConfigs = [
+                    { ...TEAM_PRESETS[0], isAI: false },
+                    { ...TEAM_PRESETS[1], isAI: false }
+                ];
+            } else {
+                playerConfigs = [
+                    { ...TEAM_PRESETS[0], isAI: false },
+                    { ...TEAM_PRESETS[1], isAI: false },
+                    { ...TEAM_PRESETS[2], isAI: false },
+                    { ...TEAM_PRESETS[3], isAI: false }
+                ];
+            }
+
+            const numPlayers = playerConfigs.length;
+            const tokenPerDim = numPlayers === 2 ? 4 : (numPlayers === 3 ? 5 : 7);
+            gameState.bank = { u: tokenPerDim, g: tokenPerDim, r: tokenPerDim, w: tokenPerDim, k: tokenPerDim, gold: 5 };
+
+            const d1 = shuffleArray(ALL_90_CARDS.filter(c => c.tier === 1));
+            const d2 = shuffleArray(ALL_90_CARDS.filter(c => c.tier === 2));
+            const d3 = shuffleArray(ALL_90_CARDS.filter(c => c.tier === 3));
+
+            gameState.market = {
+                1: d1.splice(0, 4),
+                2: d2.splice(0, 4),
+                3: d3.splice(0, 4)
+            };
+            gameState.decks = { 1: d1, 2: d2, 3: d3 };
+
+            gameState.awards = shuffleArray(AWARDS_POOL).slice(0, numPlayers + 1);
+
+            gameState.players = playerConfigs.map((cfg, idx) => ({
+                id: idx,
+                name: cfg.name,
+                role: cfg.role,
+                avatar: cfg.avatar,
+                motto: cfg.motto,
+                isAI: cfg.isAI,
+                tokens: { u: 0, g: 0, r: 0, w: 0, k: 0, gold: 0 },
+                bonuses: { u: 0, g: 0, r: 0, w: 0, k: 0 },
+                projects: [],
+                reserved: [],
+                awards: [],
+                points: 0
+            }));
+
+            logMessage(`🌸 新學年度開學！共 ${numPlayers} 所萌系學園角逐卓越辦學典範，目標 ${targetScore} 分！`);
+            renderAll();
+        }
+
+        function getPlayerTotalTokens(player) {
+            return MAIN_KEYS.reduce((s, k) => s + player.tokens[k], 0) + player.tokens.gold;
+        }
+
+        function canAffordCard(player, card) {
+            let goldNeeded = 0;
+            for (const k of MAIN_KEYS) {
+                const discountedCost = Math.max(0, (card.cost[k] || 0) - player.bonuses[k]);
+                if (player.tokens[k] < discountedCost) {
+                    goldNeeded += (discountedCost - player.tokens[k]);
+                }
+            }
+            return player.tokens.gold >= goldNeeded;
+        }
+
+        function payForCard(player, card) {
+            let goldUsed = 0;
+            for (const k of MAIN_KEYS) {
+                const discountedCost = Math.max(0, (card.cost[k] || 0) - player.bonuses[k]);
+                const spendNormal = Math.min(player.tokens[k], discountedCost);
+                const deficit = discountedCost - spendNormal;
+
+                player.tokens[k] -= spendNormal;
+                gameState.bank[k] += spendNormal;
+
+                if (deficit > 0) {
+                    player.tokens.gold -= deficit;
+                    gameState.bank.gold += deficit;
+                    goldUsed += deficit;
+                }
+            }
+            return goldUsed;
+        }
+
+        function clickResourceToken(dimKey) {
+            const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+            if (currentPlayer.isAI || gameState.gameOver) return;
+
+            const currentDraft = gameState.draftTokens;
+            const availableInBank = gameState.bank[dimKey];
+
+            if (availableInBank <= 0) return;
+
+            if (currentDraft.length === 0) {
+                currentDraft.push(dimKey);
+                gameState.bank[dimKey]--;
+                playSfx('gather');
+            } else if (currentDraft.length === 1) {
+                if (currentDraft[0] === dimKey) {
+                    if (availableInBank >= 3) {
+                        currentDraft.push(dimKey);
+                        gameState.bank[dimKey]--;
+                        playSfx('gather');
+                    } else {
+                        logMessage(`⚠️ 若要重點挹注「2枚相同向度」資源，該向度供應區原本須至少有 4 枚！`);
+                        return;
+                    }
+                } else {
+                    currentDraft.push(dimKey);
+                    gameState.bank[dimKey]--;
+                    playSfx('gather');
+                }
+            } else if (currentDraft.length === 2) {
+                if (currentDraft[0] === currentDraft[1]) {
+                    logMessage(`⚠️ 已選擇 2 枚相同向度資源，無法再拿取第 3 枚！`);
+                    return;
+                }
+                if (currentDraft.includes(dimKey)) {
+                    logMessage(`⚠️ 拿取 3 枚資源時，必須是 3 個「不同向度」的資源！`);
+                    return;
+                }
+                currentDraft.push(dimKey);
+                gameState.bank[dimKey]--;
+                playSfx('gather');
+            } else {
+                logMessage(`⚠️ 每回合最多募集 3 枚不同向度資源！`);
+                return;
+            }
+
+            renderResourceBank();
+        }
+
+        function clearDraftTokens() {
+            while (gameState.draftTokens.length > 0) {
+                const k = gameState.draftTokens.pop();
+                gameState.bank[k]++;
+            }
+            playSfx('click');
+            renderResourceBank();
+        }
+
+        function confirmGatherResources() {
+            const player = gameState.players[gameState.currentPlayerIndex];
+            if (gameState.draftTokens.length === 0) return;
+
+            const summary = gameState.draftTokens.map(k => DIMENSIONS[k].name).join('、');
+            gameState.draftTokens.forEach(k => {
+                player.tokens[k]++;
+            });
+            gameState.draftTokens = [];
+
+            playSfx('click');
+            logMessage(`📦 【${player.name}】募集了校務資源：${summary}。`);
+            checkTokenLimitAndProceed(player);
+        }
+
+        function openCardActionModal(sourceType, tierOrIndex, cardId) {
+            const player = gameState.players[gameState.currentPlayerIndex];
+            if (player.isAI || gameState.gameOver) return;
+
+            if (gameState.draftTokens.length > 0) {
+                clearDraftTokens();
+            }
+
+            let card = null;
+            if (sourceType === 'market') {
+                card = gameState.market[tierOrIndex].find(c => c && c.id === cardId);
+            } else if (sourceType === 'reserved') {
+                card = player.reserved.find(c => c.id === cardId);
+            }
+            if (!card) return;
+
+            playSfx('click');
+            gameState.selectedModalContext = { sourceType, tierOrIndex, card };
+
+            const dim = DIMENSIONS[card.bonus];
+            const tierColors = {
+                1: 'bg-emerald-500 text-slate-950',
+                2: 'bg-amber-400 text-slate-950',
+                3: 'bg-purple-500 text-white'
+            };
+            const tierNames = { 1: 'Lv.1 基礎扎根', 2: 'Lv.2 特色發展', 3: 'Lv.3 品牌典範' };
+
+            const badgeEl = document.getElementById('modalCardTierBadge');
+            badgeEl.className = `text-[11px] font-black px-2.5 py-0.5 rounded-full ${tierColors[card.tier]}`;
+            badgeEl.textContent = tierNames[card.tier];
+
+            document.getElementById('modalCardTag').textContent = card.tag || '校務專案';
+            document.getElementById('modalCardTitle').textContent = card.title;
+            document.getElementById('modalCardIcon').className = `fa-solid ${card.icon || 'fa-graduation-cap'}`;
+
+            const bonusEl = document.getElementById('modalCardBonus');
+            bonusEl.className = `text-xs font-black px-2.5 py-1 rounded-xl ${dim.badgeClass}`;
+            bonusEl.innerHTML = `<i class="fa-solid ${dim.icon} mr-1"></i>永久 +1 ${dim.name}`;
+
+            document.getElementById('modalCardPoints').textContent = card.points > 0 ? `+${card.points} 點辦學聲望` : '0 點（著重奠定常態紅利）';
+
+            const breakdownEl = document.getElementById('modalCostBreakdown');
+            breakdownEl.innerHTML = '';
+            MAIN_KEYS.forEach(k => {
+                const raw = card.cost[k] || 0;
+                if (raw > 0) {
+                    const bonus = player.bonuses[k];
+                    const net = Math.max(0, raw - bonus);
+                    const have = player.tokens[k];
+                    const d = DIMENSIONS[k];
+                    const ok = have >= net;
+                    breakdownEl.innerHTML += `
+                        <div class="flex items-center justify-between bg-white/90 dark:bg-slate-900/90 px-3 py-1.5 rounded-xl border border-rose-200/70 dark:border-slate-700">
+                            <span class="font-bold ${d.textClass} flex items-center gap-1.5"><i class="fa-solid ${d.icon}"></i>${d.name}：需 ${raw} 點</span>
+                            <span class="text-slate-600 dark:text-slate-300">紅利抵 ${bonus} ➔ 實付 <strong class="${ok ? 'text-emerald-500 font-black' : 'text-amber-500 font-black'}">${net}</strong>（持有 ${have}）</span>
+                        </div>
+                    `;
+                }
+            });
+
+            const affordable = canAffordCard(player, card);
+            const buyBtn = document.getElementById('modalBuyBtn');
+            buyBtn.disabled = !affordable;
+
+            const reserveBtn = document.getElementById('modalReserveBtn');
+            if (sourceType === 'reserved') {
+                reserveBtn.classList.add('hidden');
+            } else {
+                reserveBtn.classList.remove('hidden');
+                reserveBtn.disabled = player.reserved.length >= 3;
+            }
+
+            const modal = document.getElementById('cardActionModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeCardModal() {
+            const modal = document.getElementById('cardActionModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            gameState.selectedModalContext = null;
+        }
+
+        function executeModalCardBuy() {
+            const ctx = gameState.selectedModalContext;
+            if (!ctx) return;
+            const player = gameState.players[gameState.currentPlayerIndex];
+            const card = ctx.card;
+
+            if (!canAffordCard(player, card)) return;
+
+            payForCard(player, card);
+
+            if (ctx.sourceType === 'market') {
+                const idx = gameState.market[card.tier].findIndex(c => c && c.id === card.id);
+                if (idx !== -1) {
+                    const replacement = gameState.decks[card.tier].length > 0 ? gameState.decks[card.tier].shift() : null;
+                    gameState.market[card.tier][idx] = replacement;
+                }
+            } else {
+                player.reserved = player.reserved.filter(c => c.id !== card.id);
+            }
+
+            player.projects.push(card);
+            player.bonuses[card.bonus]++;
+            player.points += card.points;
+
+            playSfx('buy');
+            logMessage(`🌸 【${player.name}】成功落實「${card.title}」，獲得永久【+1 ${DIMENSIONS[card.bonus].name}】紅利${card.points > 0 ? ` 與 ${card.points} 點聲望` : ''}！`);
+            closeCardModal();
+            checkAwardsAndEndTurn(player);
+        }
+
+        function executeModalCardReserve() {
+            const ctx = gameState.selectedModalContext;
+            if (!ctx) return;
+            const player = gameState.players[gameState.currentPlayerIndex];
+            const card = ctx.card;
+
+            if (player.reserved.length >= 3) return;
+
+            const idx = gameState.market[card.tier].findIndex(c => c && c.id === card.id);
+            if (idx !== -1) {
+                const replacement = gameState.decks[card.tier].length > 0 ? gameState.decks[card.tier].shift() : null;
+                gameState.market[card.tier][idx] = replacement;
+            }
+
+            player.reserved.push(card);
+            let gotGold = false;
+            if (gameState.bank.gold > 0) {
+                gameState.bank.gold--;
+                player.tokens.gold++;
+                gotGold = true;
+            }
+
+            playSfx('reserve');
+            logMessage(`📝 【${player.name}】將「${card.title}」簽呈立案保留${gotGold ? '，並領取 1 枚🟡校長統籌款' : ''}。`);
+            closeCardModal();
+            checkTokenLimitAndProceed(player);
+        }
+
+        function blindReserveFromDeck(tier) {
+            const player = gameState.players[gameState.currentPlayerIndex];
+            if (player.isAI || gameState.gameOver) return;
+            if (gameState.draftTokens.length > 0) clearDraftTokens();
+
+            if (player.reserved.length >= 3) {
+                logMessage(`⚠️ 每所學校最多只能同時保留 3 張待執行立案！`);
+                return;
+            }
+            if (gameState.decks[tier].length === 0) {
+                logMessage(`⚠️ Lv.${tier} 專案牌庫已無剩餘卡片！`);
+                return;
+            }
+
+            const card = gameState.decks[tier].shift();
+            player.reserved.push(card);
+            let gotGold = false;
+            if (gameState.bank.gold > 0) {
+                gameState.bank.gold--;
+                player.tokens.gold++;
+                gotGold = true;
+            }
+
+            playSfx('reserve');
+            logMessage(`🗂️ 【${player.name}】從 Lv.${tier} 牌庫盲抽簽呈立案「${card.title}」${gotGold ? '，並獲得 1 枚🟡校長統籌款' : ''}。`);
+            checkTokenLimitAndProceed(player);
+        }
+
+        function checkTokenLimitAndProceed(player) {
+            const total = getPlayerTotalTokens(player);
+            if (total > 10) {
+                if (player.isAI) {
+                    while (getPlayerTotalTokens(player) > 10) {
+                        const availableKeys = MAIN_KEYS.filter(k => player.tokens[k] > 0);
+                        const k = availableKeys.length > 0 ? availableKeys[0] : 'gold';
+                        player.tokens[k]--;
+                        gameState.bank[k]++;
+                    }
+                    checkAwardsAndEndTurn(player);
+                } else {
+                    renderAll();
+                    openTokenReturnModal(player);
+                }
+            } else {
+                checkAwardsAndEndTurn(player);
+            }
+        }
+
+        function openTokenReturnModal(player) {
+            const modal = document.getElementById('tokenReturnModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            updateTokenReturnModalUI(player);
+        }
+
+        function updateTokenReturnModalUI(player) {
+            const total = getPlayerTotalTokens(player);
+            const excess = total - 10;
+            if (excess <= 0) {
+                const modal = document.getElementById('tokenReturnModal');
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                checkAwardsAndEndTurn(player);
+                return;
+            }
+
+            document.getElementById('returnTokenStatus').textContent = `目前持有 ${total} 枚資源，請再繳回 ${excess} 枚`;
+            const grid = document.getElementById('returnTokensGrid');
+            grid.innerHTML = '';
+
+            [...MAIN_KEYS, 'gold'].forEach(k => {
+                const count = player.tokens[k];
+                const d = DIMENSIONS[k];
+                const btn = document.createElement('button');
+                btn.disabled = count <= 0;
+                btn.className = `p-3 rounded-2xl border-2 ${d.borderClass} bg-white dark:bg-slate-800 hover:brightness-105 disabled:opacity-30 flex flex-col items-center gap-1 transition shadow-sm`;
+                btn.innerHTML = `
+                    <span class="text-xs font-black ${d.textClass} flex items-center gap-1"><i class="fa-solid ${d.icon}"></i>${d.name}</span>
+                    <span class="text-lg font-black text-slate-800 dark:text-white">${count}</span>
+                    <span class="text-[10px] text-rose-500 font-bold">繳回 1 枚</span>
+                `;
+                btn.onclick = () => {
+                    if (player.tokens[k] > 0) {
+                        player.tokens[k]--;
+                        gameState.bank[k]++;
+                        playSfx('click');
+                        updateTokenReturnModalUI(player);
+                        renderAll();
+                    }
+                };
+                grid.appendChild(btn);
+            });
+        }
+
+        function checkAwardsAndEndTurn(player) {
+            for (let i = 0; i < gameState.awards.length; i++) {
+                const award = gameState.awards[i];
+                const qualifies = Object.entries(award.req).every(([k, reqCount]) => player.bonuses[k] >= reqCount);
+                if (qualifies) {
+                    gameState.awards.splice(i, 1);
+                    player.awards.push(award);
+                    player.points += award.points;
+                    playSfx('award');
+                    logMessage(`🏆 賀！【${player.name}】校務紅利全面達標，榮獲「${award.name}」（+${award.points} 點聲望）！`);
+                    break;
+                }
+            }
+
+            if (player.points >= gameState.targetScore && !gameState.finalRoundTriggered) {
+                gameState.finalRoundTriggered = true;
+                playSfx('award');
+                logMessage(`🔔 【${player.name}】率先達到 ${player.points} 點聲望！本學期所有學校輪流完畢後將舉行授獎總結算！`);
+            }
+
+            advanceToNextTurn();
+        }
+
+        function advanceToNextTurn() {
+            const nextIdx = (gameState.currentPlayerIndex + 1) % gameState.players.length;
+            let newRoundStarted = false;
+            if (nextIdx === 0) {
+                if (gameState.finalRoundTriggered) {
+                    endGameAndDeclareWinner();
+                    return;
+                }
+                gameState.round++;
+                newRoundStarted = true;
+            }
+
+            gameState.currentPlayerIndex = nextIdx;
+
+            if (newRoundStarted && gameState.eventFrequency > 0 && gameState.round > 1 && (gameState.round - 1) % gameState.eventFrequency === 0) {
+                triggerRandomSchoolEvent(false);
+            }
+
+            renderAll();
+
+            const activePlayer = gameState.players[gameState.currentPlayerIndex];
+            if (activePlayer.isAI && !gameState.gameOver) {
+                setTimeout(() => executeAITurn(activePlayer), 750);
+            }
+        }
+
+        function triggerRandomSchoolEvent(isManualTrigger = false) {
+            if (gameState.gameOver) return;
+            if (gameState.eventDeck.length === 0) {
+                gameState.eventDeck = shuffleArray(SCHOOL_EVENTS_POOL);
+            }
+
+            const ev = gameState.eventDeck.shift();
+            const impactLines = ev.applyEffect(gameState);
+
+            gameState.players.forEach(p => {
+                if (p.points >= gameState.targetScore && !gameState.finalRoundTriggered) {
+                    gameState.finalRoundTriggered = true;
+                }
+            });
+
+            gameState.lastTriggeredEvent = {
+                event: ev,
+                round: gameState.round,
+                impacts: impactLines
+            };
+
+            playSfx('event');
+            logMessage(`⚡ 突發校務事件：【${ev.title}】已觸發！`);
+            renderAll();
+            openSchoolEventModal(gameState.lastTriggeredEvent);
+        }
+
+        function openSchoolEventModal(record) {
+            if (!record) return;
+            const { event: ev, round, impacts } = record;
+
+            document.getElementById('eventModalIcon').className = `fa-solid ${ev.icon}`;
+            document.getElementById('eventModalTypeBadge').className = `text-[11px] font-black px-2.5 py-0.5 rounded-full ${ev.badgeClass}`;
+            document.getElementById('eventModalTypeBadge').textContent = ev.category;
+            document.getElementById('eventModalRoundTag').textContent = `第 ${round} 學期事件`;
+            document.getElementById('eventModalTitle').textContent = ev.title;
+            document.getElementById('eventModalDesc').textContent = ev.desc;
+            document.getElementById('eventModalEffectRule').textContent = ev.ruleText;
+            document.getElementById('eventModalImpactResults').innerHTML = impacts.map(line => `<div>${line}</div>`).join('');
+            document.getElementById('eventModalDiscussion').textContent = `「${ev.discussion}」`;
+
+            const banner = document.getElementById('activeEventBanner');
+            banner.classList.remove('hidden');
+            banner.classList.add('flex');
+            document.getElementById('activeEventBannerTitle').textContent = `【第${round}學期】${ev.title}：${ev.ruleText}`;
+
+            const modal = document.getElementById('schoolEventModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function reopenLastEventModal() {
+            if (gameState.lastTriggeredEvent) {
+                openSchoolEventModal(gameState.lastTriggeredEvent);
+            }
+        }
+
+        function closeSchoolEventModal() {
+            const modal = document.getElementById('schoolEventModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function setEventFrequency(freq) {
+            gameState.eventFrequency = freq;
+            [2, 3, 0].forEach(val => {
+                const btn = document.getElementById(`freqBtn${val}`);
+                if (btn) {
+                    btn.className = val === freq
+                        ? 'flex-1 py-2 rounded-2xl border-2 border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 text-xs font-black'
+                        : 'flex-1 py-2 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-bold';
+                }
+            });
+        }
+
+        function executeAITurn(ai) {
+            if (gameState.gameOver) return;
+
+            let affordableOptions = [];
+            [3, 2, 1].forEach(tier => {
+                gameState.market[tier].forEach(c => {
+                    if (c && canAffordCard(ai, c)) {
+                        affordableOptions.push({ sourceType: 'market', card: c });
+                    }
+                });
+            });
+            ai.reserved.forEach(c => {
+                if (canAffordCard(ai, c)) {
+                    affordableOptions.push({ sourceType: 'reserved', card: c });
+                }
+            });
+
+            if (affordableOptions.length > 0) {
+                affordableOptions.sort((a, b) => (b.card.points - a.card.points) || (b.card.tier - a.card.tier));
+                const best = affordableOptions[0];
+                const card = best.card;
+                payForCard(ai, card);
+
+                if (best.sourceType === 'market') {
+                    const idx = gameState.market[card.tier].findIndex(c => c && c.id === card.id);
+                    const rep = gameState.decks[card.tier].length > 0 ? gameState.decks[card.tier].shift() : null;
+                    gameState.market[card.tier][idx] = rep;
+                } else {
+                    ai.reserved = ai.reserved.filter(c => c.id !== card.id);
+                }
+
+                ai.projects.push(card);
+                ai.bonuses[card.bonus]++;
+                ai.points += card.points;
+                playSfx('buy');
+                logMessage(`🤖 【${ai.name}】執行了專案「${card.title}」（+${DIMENSIONS[card.bonus].name}紅利，+${card.points}分）！`);
+                checkAwardsAndEndTurn(ai);
+                return;
+            }
+
+            const availableDims = MAIN_KEYS.filter(k => gameState.bank[k] > 0);
+            if (availableDims.length >= 3 && getPlayerTotalTokens(ai) <= 7) {
+                const picked = shuffleArray(availableDims).slice(0, 3);
+                picked.forEach(k => {
+                    gameState.bank[k]--;
+                    ai.tokens[k]++;
+                });
+                playSfx('gather');
+                logMessage(`🤖 【${ai.name}】募集了 3 項校務資源：${picked.map(k => DIMENSIONS[k].name).join('、')}。`);
+                checkTokenLimitAndProceed(ai);
+                return;
+            }
+
+            if (ai.reserved.length < 3) {
+                const candidate = gameState.market[2].find(c => c !== null) || gameState.market[1].find(c => c !== null);
+                if (candidate) {
+                    const idx = gameState.market[candidate.tier].findIndex(c => c && c.id === candidate.id);
+                    const rep = gameState.decks[candidate.tier].length > 0 ? gameState.decks[candidate.tier].shift() : null;
+                    gameState.market[candidate.tier][idx] = rep;
+                    ai.reserved.push(candidate);
+                    if (gameState.bank.gold > 0) {
+                        gameState.bank.gold--;
+                        ai.tokens.gold++;
+                    }
+                    playSfx('reserve');
+                    logMessage(`🤖 【${ai.name}】簽呈立案保留了「${candidate.title}」。`);
+                    checkTokenLimitAndProceed(ai);
+                    return;
+                }
+            }
+
+            const fallbackDims = availableDims.slice(0, 2);
+            fallbackDims.forEach(k => {
+                gameState.bank[k]--;
+                ai.tokens[k]++;
+            });
+            playSfx('gather');
+            logMessage(`🤖 【${ai.name}】盤點並募集了校務資源。`);
+            checkTokenLimitAndProceed(ai);
+        }
+
+        function endGameAndDeclareWinner() {
+            gameState.gameOver = true;
+            renderAll();
+
+            const sorted = [...gameState.players].sort((a, b) => {
+                if (b.points !== a.points) return b.points - a.points;
+                return a.projects.length - b.projects.length;
+            });
+
+            const winner = sorted[0];
+            document.getElementById('victorySubtitle').textContent = `恭喜【${winner.name}】以 ${winner.points} 點辦學聲望榮獲年度卓越辦學總錦標！`;
+
+            const container = document.getElementById('victoryStandings');
+            container.innerHTML = sorted.map((p, idx) => `
+                <div class="p-3.5 rounded-2xl border-2 ${idx === 0 ? 'border-amber-400 bg-amber-50 dark:bg-amber-950/40' : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-800/80'} flex items-center justify-between shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <img src="${p.avatar || 'mascot.png'}" class="w-12 h-12 rounded-xl object-cover border border-amber-300 shadow-sm" />
+                        <div>
+                            <div class="flex items-center gap-1.5">
+                                <span class="text-xs font-black px-2 py-0.5 rounded-full ${idx === 0 ? 'bg-amber-400 text-slate-950' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200'}">第 ${idx + 1} 名</span>
+                                <span class="font-black text-slate-800 dark:text-white text-sm">${p.name}</span>
+                            </div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">完成專案：${p.projects.length} 項 ｜ 評鑑大獎：${p.awards.map(a => a.name).join('、') || '無'}</div>
+                        </div>
+                    </div>
+                    <div class="text-2xl font-black text-amber-500">${p.points} 分</div>
+                </div>
+            `).join('');
+
+            // Launch colorful anime confetti
+            if (window.confetti) {
+                confetti({
+                    particleCount: 120,
+                    spread: 80,
+                    origin: { y: 0.6 }
+                });
+            }
+
+            playSfx('award');
+            const modal = document.getElementById('victoryModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeVictoryModal() {
+            const modal = document.getElementById('victoryModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function renderAll() {
+            const activePlayer = gameState.players[gameState.currentPlayerIndex];
+            document.getElementById('turnIndicatorText').textContent = gameState.gameOver
+                ? '🌸 學年度已完成總結算'
+                : `當前行動：${activePlayer.name}`;
+            document.getElementById('roundBadge').textContent = gameState.finalRoundTriggered
+                ? `🔔 最終學期結算輪（第 ${gameState.round} 學期）`
+                : `第 ${gameState.round} 學期`;
+
+            renderResourceBank();
+            renderAwards();
+            renderMarket();
+            renderPlayersDashboard();
+        }
+
+        function renderResourceBank() {
+            const container = document.getElementById('resourceBankContainer');
+            const activePlayer = gameState.players[gameState.currentPlayerIndex];
+            container.innerHTML = '';
+
+            MAIN_KEYS.forEach(k => {
+                const d = DIMENSIONS[k];
+                const count = gameState.bank[k];
+                const btn = document.createElement('button');
+                btn.disabled = count <= 0 || activePlayer.isAI || gameState.gameOver;
+                btn.onclick = () => clickResourceToken(k);
+                btn.className = `token-btn flex items-center justify-between p-2.5 rounded-2xl border-2 ${d.borderClass} ${d.lightBg} hover:brightness-105 disabled:opacity-40`;
+                btn.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <div class="w-8 h-8 rounded-xl ${d.bgClass} flex items-center justify-center text-white shadow-sm">
+                            <i class="fa-solid ${d.icon} text-sm"></i>
+                        </div>
+                        <div class="text-left">
+                            <div class="text-xs font-black text-slate-800 dark:text-slate-100">${d.name}</div>
+                            <div class="text-[10px] text-slate-500 dark:text-slate-400">校內紅利: +${activePlayer.bonuses[k]}</div>
+                        </div>
+                    </div>
+                    <div class="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-950 font-mono text-sm font-black ${d.textClass} shadow-inner border border-slate-100 dark:border-slate-800">
+                        ${count}
+                    </div>
+                `;
+                container.appendChild(btn);
+            });
+
+            // Gold Token display
+            const goldDiv = document.createElement('div');
+            goldDiv.className = `flex items-center justify-between p-2.5 rounded-2xl border-2 border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/30`;
+            goldDiv.innerHTML = `
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-amber-400 flex items-center justify-center text-slate-950 shadow-sm">
+                        <i class="fa-solid fa-star text-sm"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="text-xs font-black text-amber-700 dark:text-amber-300">校長統籌款</div>
+                        <div class="text-[10px] text-amber-600/80 dark:text-amber-400/80">簽呈立案時獲取</div>
+                    </div>
+                </div>
+                <div class="px-2.5 py-1 rounded-xl bg-white dark:bg-slate-950 font-mono text-sm font-black text-amber-600 dark:text-amber-300 shadow-inner border border-amber-200 dark:border-slate-800">
+                    ${gameState.bank.gold}
+                </div>
+            `;
+            container.appendChild(goldDiv);
+
+            // Draft display
+            const draftDisplay = document.getElementById('draftTokensDisplay');
+            const clearBtn = document.getElementById('clearDraftBtn');
+            const confirmBtn = document.getElementById('confirmGatherBtn');
+
+            if (gameState.draftTokens.length === 0) {
+                draftDisplay.innerHTML = `<span class="text-xs text-slate-400 flex items-center gap-1"><i class="fa-regular fa-hand-pointer"></i> 點選上方資源（3枚不同 或 2枚相同）</span>`;
+                clearBtn.classList.add('hidden');
+                confirmBtn.disabled = true;
+            } else {
+                clearBtn.classList.remove('hidden');
+                confirmBtn.disabled = false;
+                draftDisplay.innerHTML = gameState.draftTokens.map(k => {
+                    const d = DIMENSIONS[k];
+                    return `<span class="px-2.5 py-1 rounded-xl text-xs font-black ${d.badgeClass} flex items-center gap-1 shadow-sm">
+                        <i class="fa-solid ${d.icon}"></i> +1 ${d.name}
+                    </span>`;
+                }).join('');
+            }
+        }
+
+        function renderAwards() {
+            const container = document.getElementById('awardsContainer');
+            const activePlayer = gameState.players[gameState.currentPlayerIndex];
+            container.innerHTML = '';
+
+            if (gameState.awards.length === 0) {
+                container.innerHTML = `<div class="text-xs text-slate-400 text-center py-4">🌸 本學期所有評鑑榮譽獎項皆已頒發完畢！</div>`;
+                return;
+            }
+
+            gameState.awards.forEach(award => {
+                const reqBadges = Object.entries(award.req).map(([k, count]) => {
+                    const d = DIMENSIONS[k];
+                    const have = activePlayer.bonuses[k];
+                    const met = have >= count;
+                    return `<span class="px-2 py-0.5 rounded-lg text-[10px] font-black border ${d.borderClass} ${met ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200' : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300'}">
+                        ${d.name} ${have}/${count}
+                    </span>`;
+                }).join('');
+
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-2xl bg-gradient-to-r from-white to-amber-50/40 dark:from-slate-900 dark:to-slate-850 border border-amber-300/80 dark:border-amber-700/60 shadow-sm`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-1">
+                        <span class="text-xs font-black text-amber-700 dark:text-amber-300 flex items-center gap-1.5">
+                            <i class="fa-solid ${award.icon || 'fa-award'} text-amber-500"></i> ${award.name}
+                        </span>
+                        <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-amber-400 text-slate-950 shadow-sm">+3分</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-2 leading-tight">${award.desc}</p>
+                    <div class="flex flex-wrap gap-1.5">${reqBadges}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function renderMarket() {
+            const activePlayer = gameState.players[gameState.currentPlayerIndex];
+
+            [3, 2, 1].forEach(tier => {
+                document.getElementById(`deckCount${tier}`).textContent = `牌庫: ${gameState.decks[tier].length}`;
+                const rowContainer = document.getElementById(`marketTier${tier}`);
+                rowContainer.innerHTML = '';
+
+                gameState.market[tier].forEach(card => {
+                    if (!card) {
+                        const emptySlot = document.createElement('div');
+                        emptySlot.className = 'h-40 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 flex items-center justify-center text-xs text-slate-400 font-bold';
+                        emptySlot.textContent = '專案已全數執行';
+                        rowContainer.appendChild(emptySlot);
+                        return;
+                    }
+
+                    const d = DIMENSIONS[card.bonus];
+                    const affordable = !activePlayer.isAI && canAffordCard(activePlayer, card);
+
+                    const costBadges = MAIN_KEYS.filter(k => (card.cost[k] || 0) > 0).map(k => {
+                        const cd = DIMENSIONS[k];
+                        const raw = card.cost[k];
+                        const bonus = activePlayer.bonuses[k];
+                        const net = Math.max(0, raw - bonus);
+                        return `
+                            <div class="flex items-center justify-between px-2 py-0.5 rounded-lg ${cd.lightBg} border ${cd.borderClass} text-[10px]">
+                                <span class="font-black ${cd.textClass} flex items-center gap-0.5"><i class="fa-solid ${cd.icon} text-[9px]"></i>${cd.name}</span>
+                                <span class="font-mono font-black text-slate-800 dark:text-slate-100">${raw}${bonus > 0 ? `<span class="text-[9px] text-emerald-500 ml-0.5">(${net})</span>` : ''}</span>
+                            </div>
+                        `;
+                    }).join('');
+
+                    const cardEl = document.createElement('div');
+                    cardEl.onclick = () => openCardActionModal('market', tier, card.id);
+                    cardEl.className = `project-card cursor-pointer rounded-2xl p-2.5 flex flex-col justify-between min-h-[160px] ${affordable ? 'affordable-glow border-amber-400' : ''}`;
+
+                    cardEl.innerHTML = `
+                        <!-- Top Row: Points Star Ribbon & Bonus Stamp -->
+                        <div class="flex items-center justify-between gap-1 pb-1.5 border-b border-slate-100 dark:border-slate-800">
+                            <span class="text-xs font-black ${card.points > 0 ? 'text-amber-500 flex items-center gap-0.5' : 'text-slate-400'}">
+                                ${card.points > 0 ? `<i class="fa-solid fa-star text-amber-400 text-[10px]"></i>★ ${card.points}分` : '基礎'}
+                            </span>
+                            <span class="px-2 py-0.5 rounded-lg text-[10px] font-black ${d.badgeClass} flex items-center gap-1">
+                                <i class="fa-solid ${d.icon}"></i> +1 ${d.name}
+                            </span>
+                        </div>
+
+                        <!-- Center: Cute Dedicated Card Icon Badge & Title -->
+                        <div class="my-2 flex flex-col items-center text-center">
+                            <div class="w-10 h-10 rounded-2xl ${d.lightBg} border ${d.borderClass} flex items-center justify-center text-base ${d.textClass} shadow-inner mb-1.5 transition-transform group-hover:scale-110">
+                                <i class="fa-solid ${card.icon || 'fa-graduation-cap'}"></i>
+                            </div>
+                            <h4 class="text-xs font-black text-slate-800 dark:text-white leading-tight line-clamp-2 px-1">${card.title}</h4>
+                        </div>
+
+                        <!-- Bottom: Cost Pills Grid -->
+                        <div class="grid grid-cols-2 gap-1 mt-auto">
+                            ${costBadges}
+                        </div>
+
+                        ${affordable ? `
+                            <div class="absolute -top-1.5 -right-1.5 bg-amber-400 text-slate-950 font-black text-[9px] px-2 py-0.2 rounded-full shadow-md border border-white">
+                                可執行✨
+                            </div>
+                        ` : ''}
+                    `;
+                    rowContainer.appendChild(cardEl);
+                });
+            });
+        }
+
+        function renderPlayersDashboard() {
+            const container = document.getElementById('playersDashboard');
+            container.innerHTML = '';
+
+            gameState.players.forEach((p, idx) => {
+                const isTurn = idx === gameState.currentPlayerIndex && !gameState.gameOver;
+                const totalTokens = getPlayerTotalTokens(p);
+
+                const dimSummary = MAIN_KEYS.map(k => {
+                    const d = DIMENSIONS[k];
+                    return `
+                        <div class="flex flex-col items-center p-1.5 rounded-xl bg-white/90 dark:bg-slate-950/80 border ${d.borderClass} shadow-inner">
+                            <span class="text-[9px] font-black ${d.textClass}">${d.name}</span>
+                            <div class="flex items-baseline gap-0.5 mt-0.5">
+                                <span class="text-xs font-black text-slate-800 dark:text-white" title="手頭籌碼">${p.tokens[k]}</span>
+                                <span class="text-[10px] font-black text-emerald-500" title="永久紅利">[+${p.bonuses[k]}]</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                const reservedHtml = p.reserved.length > 0 ? `
+                    <div class="mt-2.5 pt-2 border-t border-rose-100 dark:border-slate-800">
+                        <div class="text-[11px] text-amber-700 dark:text-amber-300 font-black mb-1 flex items-center gap-1">
+                            <i class="fa-solid fa-folder-open text-amber-500"></i> 待執行立案夾 (${p.reserved.length}/3)：
+                        </div>
+                        <div class="space-y-1">
+                            ${p.reserved.map(rc => {
+                                const rd = DIMENSIONS[rc.bonus];
+                                const canBuy = isTurn && !p.isAI && canAffordCard(p, rc);
+                                return `
+                                    <div onclick="${isTurn && !p.isAI ? `openCardActionModal('reserved', 0, '${rc.id}')` : ''}"
+                                        class="p-1.5 rounded-xl bg-white dark:bg-slate-950 border-2 ${canBuy ? 'border-amber-400 cursor-pointer shadow-sm' : 'border-slate-200 dark:border-slate-800'} flex items-center justify-between text-[11px]">
+                                        <div class="flex items-center gap-1.5 truncate">
+                                            <i class="fa-solid ${rc.icon || 'fa-file'} ${rd.textClass} text-xs"></i>
+                                            <span class="truncate font-bold text-slate-700 dark:text-slate-200">${rc.title}</span>
+                                        </div>
+                                        <span class="shrink-0 ml-1 px-1.5 py-0.2 rounded-md ${rd.badgeClass} text-[9px] font-black">+1${rd.name}${rc.points ? `/${rc.points}分` : ''}</span>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                ` : '';
+
+                const awardsHtml = p.awards.length > 0 ? `
+                    <div class="mt-2 flex flex-wrap gap-1">
+                        ${p.awards.map(a => `<span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950 border border-amber-300 text-amber-800 dark:text-amber-200 font-black shadow-sm">🏆 ${a.name}</span>`).join('')}
+                    </div>
+                ` : '';
+
+                const card = document.createElement('div');
+                card.className = `p-3 rounded-3xl border-2 transition ${isTurn ? 'active-player-board bg-gradient-to-br from-rose-50/70 to-white dark:from-slate-850 dark:to-slate-900 border-rose-400 shadow-md' : 'bg-white/80 dark:bg-slate-950/60 border-slate-200 dark:border-slate-800'}`;
+                card.innerHTML = `
+                    <div class="flex items-center justify-between mb-2">
+                        <div class="flex items-center gap-2">
+                            <img src="${p.avatar || 'mascot.png'}" class="w-9 h-9 rounded-xl object-cover border border-rose-300 shadow-sm" />
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    ${isTurn ? '<span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>' : ''}
+                                    <span class="text-xs font-black text-slate-800 dark:text-white">${p.name}</span>
+                                </div>
+                                <div class="text-[10px] text-slate-400">${p.role || '校長室團隊'}</div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-400 text-slate-950 text-xs font-black shadow-sm">${p.points} / ${gameState.targetScore} 分</span>
+                            <span class="text-[10px] text-slate-400 mt-0.5">資源: ${totalTokens}/10</span>
+                        </div>
+                    </div>
+
+                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mb-1.5 flex justify-between font-bold">
+                        <span>向度：持籌碼 <strong class="text-emerald-500">[+紅利]</strong></span>
+                        <span class="text-amber-600 dark:text-amber-300">🟡統籌款: ${p.tokens.gold}</span>
+                    </div>
+
+                    <div class="grid grid-cols-5 gap-1">
+                        ${dimSummary}
+                    </div>
+
+                    ${awardsHtml}
+                    ${reservedHtml}
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function logMessage(msg) {
+            document.getElementById('latestLogText').textContent = msg;
+        }
+
+        function openSetupModal() {
+            const modal = document.getElementById('setupModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeSetupModal() {
+            const modal = document.getElementById('setupModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function selectGamePreset(preset) {
+            gameState.preset = preset;
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                if (btn.dataset.preset === preset) {
+                    btn.className = 'preset-btn p-3 rounded-2xl border-2 border-rose-400 bg-rose-50 dark:bg-rose-950/30 text-left transition';
+                } else {
+                    btn.className = 'preset-btn p-3 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/60 text-left transition';
+                }
+            });
+        }
+
+        function setTargetScore(score) {
+            gameState.targetScore = score;
+            document.getElementById('scoreBtn15').className = score === 15
+                ? 'flex-1 py-2.5 rounded-2xl border-2 border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 text-xs font-black'
+                : 'flex-1 py-2.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-black';
+            document.getElementById('scoreBtn12').className = score === 12
+                ? 'flex-1 py-2.5 rounded-2xl border-2 border-rose-400 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 text-xs font-black'
+                : 'flex-1 py-2.5 rounded-2xl border-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-xs font-black';
+        }
+
+        function startNewGameFromSetup() {
+            closeSetupModal();
+            initGame(gameState.preset, gameState.targetScore);
+        }
+
+        function openRulesModal() {
+            const m = document.getElementById('rulesModal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function closeRulesModal() {
+            const m = document.getElementById('rulesModal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+
+        let currentCatalogTier = 'ALL';
+        let currentCatalogSearch = '';
+
+        function openCatalogModal() {
+            currentCatalogTier = 'ALL';
+            currentCatalogSearch = '';
+            document.getElementById('catalogSearchInput').value = '';
+            renderCatalogTable();
+            const m = document.getElementById('catalogModal');
+            m.classList.remove('hidden');
+            m.classList.add('flex');
+        }
+
+        function closeCatalogModal() {
+            const m = document.getElementById('catalogModal');
+            m.classList.add('hidden');
+            m.classList.remove('flex');
+        }
+
+        function filterCatalog(tier) {
+            currentCatalogTier = tier;
+            ['ALL', 1, 2, 3].forEach(t => {
+                const btn = document.getElementById(`catBtn${t}`);
+                if (btn) {
+                    btn.className = t === tier
+                        ? 'px-3 py-1 rounded-xl text-xs font-black bg-rose-500 text-white shadow-sm'
+                        : 'px-3 py-1 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300';
+                }
+            });
+            renderCatalogTable();
+        }
+
+        function onCatalogSearch() {
+            currentCatalogSearch = document.getElementById('catalogSearchInput').value.trim().toLowerCase();
+            renderCatalogTable();
+        }
+
+        function renderCatalogTable() {
+            const tbody = document.getElementById('catalogTableBody');
+            let list = ALL_90_CARDS;
+
+            if (currentCatalogTier !== 'ALL') {
+                list = list.filter(c => c.tier === currentCatalogTier);
+            }
+            if (currentCatalogSearch) {
+                list = list.filter(c => c.title.toLowerCase().includes(currentCatalogSearch) || (c.tag && c.tag.toLowerCase().includes(currentCatalogSearch)));
+            }
+
+            tbody.innerHTML = list.map(c => {
+                const d = DIMENSIONS[c.bonus];
+                const costBadges = MAIN_KEYS.filter(k => c.cost[k] > 0).map(k => {
+                    const cd = DIMENSIONS[k];
+                    return `<span class="inline-flex items-center gap-0.5 px-1.5 py-0.2 rounded ${cd.lightBg} border ${cd.borderClass} ${cd.textClass} text-[10px] font-black mr-1"><i class="fa-solid ${cd.icon} text-[8px]"></i>${c.cost[k]}</span>`;
+                }).join('');
+
+                return `
+                    <tr class="hover:bg-rose-50/50 dark:hover:bg-slate-800/60">
+                        <td class="p-3 font-black">Lv.${c.tier}</td>
+                        <td class="p-3 font-black text-slate-800 dark:text-white flex items-center gap-2">
+                            <span class="w-7 h-7 rounded-lg ${d.lightBg} border ${d.borderClass} flex items-center justify-center ${d.textClass} text-xs">
+                                <i class="fa-solid ${c.icon || 'fa-graduation-cap'}"></i>
+                            </span>
+                            <span>${c.title}</span>
+                        </td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-[10px] font-bold text-slate-600 dark:text-slate-300">${c.tag}</span></td>
+                        <td class="p-3"><span class="px-2 py-0.5 rounded-lg text-[10px] font-black ${d.badgeClass}">+1 ${d.name}</span></td>
+                        <td class="p-3 font-black text-amber-500">${c.points > 0 ? `★ ${c.points} 分` : '0 分'}</td>
+                        <td class="p-3">${costBadges}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        window.onload = function () {
+            initGame('1P_1AI', 15);
+        };
+    </script>
+</body>
+</html>
